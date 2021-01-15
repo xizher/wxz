@@ -29,5 +29,5 @@ export declare class CookieUtils {
    * @param key 键
    * @returns 值
    */
-  static getCookie (key: string | null) : void
+  static getCookie (key: string | null) : string
 }
