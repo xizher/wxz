@@ -1,4 +1,4 @@
-import CryptoJS from '../../../libs/crypto-js/crypto-js.min.js'
+import CryptoJS from '../../libs/crypto-js/crypto-js'
 
 /**
  * 字符串加密解密工具类
