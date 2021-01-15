@@ -1,0 +1,22 @@
+{
+  "name": "wxz",
+  "version": "1.0.0",
+  "description": "JavaScript Extension From XizheWu",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xizher/wxz.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Xizhe Wu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xizher/wxz/issues"
+  },
+  "homepage": "https://github.com/xizher/wxz#readme"
+}
