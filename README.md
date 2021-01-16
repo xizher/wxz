@@ -103,3 +103,23 @@ $ext(new Date()).format('yyyy-MM-dd hh-mm-ss')
 - `max`：获取数字数组最大值
 - `min`：获取数字数组最小值
 - `ave`：获取数字数组平均值
+
+## src/listener
+
+监听器
+
+- `on`：绑定事件
+- `fire`：触发事件
+- `off`：取消特定的绑定事件
+- `once`：绑定一次性事件
+
+## src/comparator
+
+比较器
+
+- `equal`：两者是否等于
+- `lessThan`：前者是否小于后者
+- `greaterThan`：前者是否大于后者
+- `lessThanOrEqual`：前者是否小于等于后者
+- `greaterThanOrEqual`：前者是否大于等于后者
+- `reverse`：反转比较

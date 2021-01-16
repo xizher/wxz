@@ -7,13 +7,36 @@
 interface ICallBack<T> {
   name: T
   origin: this
-  [key: string]: string
 }
 
 
-export class Listener<T extends String> {
-  on (name: T, fn: (event?: ICallBack<T>) => void, scope?: any) : (event?: ICallBack<T>) => void
-  fire (name: T, data: any) : void
-  off (name: string, fn?: (event?: ICallBack<T>) => void): void
-  once (name: string, fn: (event?: ICallBack<T>) => void, scope?: any): (event?: ICallBack<T>) => void
+export class Listener<T> {
+  /**
+   * 绑定事件
+   * @param name 事件名称
+   * @param fn 事件处理函数
+   * @param scope 事件处理函数上下文
+   * @returns 事件处理函数
+   */
+  on (name: T['string'], fn: (event?: ICallBack<T['string']> & T['scope']) => void, scope?: any) : (event?: ICallBack<T>) => void
+  /**
+   * 触发事件
+   * @param name 触发的事件名称
+   * @param data 触发传递的数据
+   */
+  fire (name: T['string'], data: any) : void
+  /**
+   * 取消特定的绑定事件
+   * @param name 取消的绑定事件
+   * @param fn 需要的判定事件处理函数（null则移除全部）
+   */
+  off (name: T['string'], fn?: (event?: ICallBack<T['string']> & T['scope']) => void): void
+  /**
+   * 绑定一次性事件
+   * @param name 事件名称
+   * @param fn 事件处理函数
+   * @param scope 事件处理函数上下文
+   * @returns 事件处理函数
+   */
+  once (name: T['string'], fn: (event?: ICallBack<T['string']> & T['scope']) => void, scope?: any): (event?: ICallBack<T>) => void
 }
