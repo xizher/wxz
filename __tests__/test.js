@@ -1,12 +1,19 @@
 import {
   BaseUtils,
-  CryptoUtils
-} from '../src/js-utils'
-import { $ext } from '../src/js-ext'
+  CryptoUtils,
+  $ext,
+  Listener
+} from '..'
 
 let NO = 1
 function log (sth) {
   console.log(`${NO++}. ----- ${sth}`)
+}
+function slog () {
+  console.log(`${NO++}. ----- START`)
+}
+function elog () {
+  console.log(`  END`)
 }
 
 {
@@ -172,4 +179,37 @@ function log (sth) {
 {
   const arr = [0, 1, 1, 2, 1, 4]
   log($ext(arr).ave())
+}
+{
+  slog()
+  
+  class Test extends Listener {
+    constructor () {
+      super();
+      this.val = 0
+    }
+    ins () {
+      this.val++
+      this.fire('ins', { value: this.val })
+      return this
+    }
+    des () {
+      this.val--
+      this.fire('des', { value: this.val })
+      return this
+    }
+  }
+  const test = new Test()
+  const func = test.on('ins', event => {
+    console.log('ins', event.value)
+  })
+  test.once('des', event => {
+    console.log('des', event.value)
+  })
+  test.ins().des().des()
+  test.off('ins', func)
+  test.ins()
+  console.log(test.val)
+
+  elog()
 }
