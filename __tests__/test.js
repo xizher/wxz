@@ -2,7 +2,8 @@ import {
   BaseUtils,
   CryptoUtils,
   $ext,
-  Listener
+  Listener,
+  Comparator,
 } from '..'
 
 let NO = 1
@@ -210,6 +211,16 @@ function elog () {
   test.off('ins', func)
   test.ins()
   console.log(test.val)
+
+  elog()
+}
+{
+  slog()
+
+  const obj1 = { a: 1 }
+  const obj2 = { a: 2 }
+  const comparator = new Comparator((i, j) => i.a - j.a)
+  console.log(comparator.lessThan(obj1, obj2))
 
   elog()
 }
