@@ -1,4 +1,4 @@
-type BaseType = string | number | any[] | Date
+type BaseType = String | Number | any[] | Date
 
 interface IExtentsion<T extends BaseType> {
   target: T
