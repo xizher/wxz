@@ -54,3 +54,52 @@ CryptoUtils.setKey('').setIv('') // config crypto
 - `deepExtent`：对象扩展
 - `copyText`：复制文本
 
+## src/js-ext
+
+扩展原型对象
+
+```javascript
+/* example: 日期转模板字符串 */
+$ext(new Date()).format('yyyy-MM-dd hh-mm-ss')
+```
+
+### Date 日期对象扩展
+
+- `format`：日期格式化
+- `getNextDate`：获取下一个增量日数的日期对象
+- `getMonth`：获取日期对象的月份
+
+### String 字符串对象扩展
+
+- `contain`：检查字符串是否包含在给定字符串数组内
+- `trimAll`：获取无空格状态的字符串
+- `replaceAll`：替换所有符串查询的字符串，并返回替换后结果
+
+### Number 数字对象扩展
+
+- `floor`：向下取整
+- `ceil`：向上取整
+- `abs`：绝对值
+- `round`：保留小数位
+- `toDateFormat`：数字转日期字符串
+- `toCashString`：数字转现金字符串
+- `toChineseString`：数字转中文数字
+
+### Array 数组对象扩展
+
+- `insert`：插入
+- `remove`：移除
+- `clear`：清空
+- `reset`：重置
+- `removeValue`：移除值
+- `unique`：去重
+- `getUnique`：获取唯一值
+- `equal`：是否相等
+- `findItem`：寻找所有符合要求的对象数组子集
+- `findItems`：寻找符合要求的第一个对象数组子集
+- `propToArr`：提取对象数组属性
+- `sum`：获取数字数组值总和
+- `last`：获取数组的最后一位对象
+- `max`：获取数字数组最大值
+- `min`：获取数字数组最小值
+- `ave`：获取数字数组平均值

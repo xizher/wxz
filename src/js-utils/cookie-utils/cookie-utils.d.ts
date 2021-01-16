@@ -1,3 +1,9 @@
+/*
+ * 描    述：TypeScript 声明文件 -> JavaScript Cookie操作工具类
+ * 作    者：ngheizit on 2021-1-15
+ * 联系方式：xizher@163.com | 198907836@qq.com
+ */
+
 interface ICookieOptions {
   days: number
   hours: number

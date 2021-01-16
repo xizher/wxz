@@ -1,3 +1,9 @@
+/*
+ * 描    述：JavaScript 原型对象扩展器
+ * 作    者：ngheizit on 2021-1-16
+ * 联系方式：xizher@163.com | 198907836@qq.com
+ */
+
 /**
  * 原型对象扩展
  * @param { Date | string | number | any[] } _this 原型对象

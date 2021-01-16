@@ -1,3 +1,9 @@
+/*
+ * 描    述：TypeScript 声明文件 -> JavaScript 基础工具类
+ * 作    者：ngheizit on 2021-1-15
+ * 联系方式：xizher@163.com | 198907836@qq.com
+ */
+
 interface IGeoLocationResult {
   lat: number
   lon: number

@@ -1,3 +1,44 @@
+/*
+ * 描    述：JavaScript 自定义类 监听器
+ * 作    者：ngheizit on 2021-1-16
+ * 联系方式：xizher@163.com | 198907836@qq.com
+ */
+
+/**
+ * 监听器
+ * @example
+    class Test extends Listener {
+      constructor () {
+        super();
+        this.val = 0
+      }
+      ins () {
+        this.val++
+        this.fire('ins', { value: this.val })
+        return this
+      }
+      des () {
+        this.val--
+        this.fire('des', { value: this.val })
+        return this
+      }
+    }
+    const test = new Test()
+    const func = test.on('ins', event => {
+      console.log('ins', event.value)
+    })
+    test.once('des', event => {
+      console.log('des', event.value)
+    })
+    test.ins().des().des()
+    test.off('ins', func)
+    test.ins()
+    console.log(test.val)
+    // output:
+    //    ins 1
+    //    des 0
+    //    0
+ */
 export const Listener = (function() {
 
   //#region 私有属性

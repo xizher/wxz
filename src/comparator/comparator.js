@@ -1,3 +1,18 @@
+/*
+ * 描    述：JavaScript 自定义类 比较器
+ * 作    者：ngheizit on 2021-1-16
+ * 联系方式：xizher@163.com | 198907836@qq.com
+ */
+
+/**
+  * 比较器
+  * @example
+      const obj1 = { a: 1 }
+      const obj2 = { a: 2 }
+      const comparator = new Comparator((i, j) => i.a - j.a)
+      comparator.lessThan(obj1, obj2) // output: true
+      comparator.equal(obj1, obj2) // output: false
+  */
 export const Comparator = (function() {
 
   //#region 私有属性

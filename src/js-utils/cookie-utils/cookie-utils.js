@@ -1,3 +1,9 @@
+/*
+ * 描    述：JavaScript Cookie操作工具类
+ * 作    者：ngheizit on 2021-1-15
+ * 联系方式：xizher@163.com | 198907836@qq.com
+ */
+
 /**
  * Cookie操作工具类
  * （ get、set、del ）
