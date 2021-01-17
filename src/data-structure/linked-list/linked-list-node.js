@@ -1,4 +1,8 @@
-
+/*
+ * 描    述：JavaScript 自定义类 链表结点
+ * 作    者：ngheizit on 2021-1-17
+ * 联系方式：xizher@163.com | 198907836@qq.com
+ */
 
 import { Listener } from '../../listener/listener'
 
