@@ -123,3 +123,25 @@ $ext(new Date()).format('yyyy-MM-dd hh-mm-ss')
 - `lessThanOrEqual`：前者是否小于等于后者
 - `greaterThanOrEqual`：前者是否大于等于后者
 - `reverse`：反转比较
+
+## src/data-structure
+
+数据结构集成
+
+### LinkedList
+
+单链表
+
+- **get** `length`：链表结点数
+- `getAt`：获取指定位置索引上的结点
+- `append`：在链表尾部添加结点
+- `toString`：链表转字符串
+- `toArray`：链表转数组
+- `insert`：在指定位置插入结点
+- `removeAt`：移除指定位置的结点
+- `remove`：移除指定结点值的第一的结点
+- `removeAll`：移除指定结点值的所有结点
+- `indexOf`：查找指定结点值的位置
+- `clear`：清空链表结点
+- `isEmpty`：是否为空链表
+
