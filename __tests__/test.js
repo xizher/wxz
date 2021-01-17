@@ -4,7 +4,9 @@ import {
   $ext,
   Listener,
   Comparator,
+  LinkedList
 } from '..'
+import { LinkedListNode } from '../src/data-structure/linked-list/linked-list-node'
 
 let NO = 1
 function log (sth) {
@@ -221,6 +223,50 @@ function elog () {
   const obj2 = { a: 2 }
   const comparator = new Comparator((i, j) => i.a - j.a)
   console.log(comparator.lessThan(obj1, obj2))
+
+  elog()
+}
+{
+  slog()
+
+  const node = new LinkedListNode(1)
+  node.on('value-changed', event => {
+    const { oldVal, newVal } = event
+    console.log(`${oldVal} -> ${newVal}`)
+  })
+  node.value = 2
+
+  elog()
+}
+{
+  slog()
+
+  /** @type {LinkedList<number>} */
+  const list = new LinkedList()
+  list.on('node-changed', event => {
+    console.log(JSON.stringify(event))
+  })
+  // list.once('appended', event => {
+  //   console.log(JSON.stringify(event))
+  // })
+  // list.on('inserted', event => {
+  //   console.log(JSON.stringify(event))
+  // })
+  list.on('cleared', event => {
+    console.log(JSON.stringify(event))
+  })
+  list
+    .append(11)
+    .append(22)
+    .insert(2, 33)
+    .insert(1, 33)
+    .insert(0, 44)
+    // .removeAt(3)
+    // .remove(44)
+    .removeAll(33)
+    .clear()
+  console.log(list.toArray(), list.length, list.isEmpty())
+
 
   elog()
 }
