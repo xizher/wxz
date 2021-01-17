@@ -39,7 +39,7 @@
     //    des 0
     //    0
  */
-export const Listener = (function() {
+export const Listener = (function () {
 
   //#region 私有属性
 

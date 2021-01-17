@@ -13,7 +13,7 @@
       comparator.lessThan(obj1, obj2) // output: true
       comparator.equal(obj1, obj2) // output: false
   */
-export const Comparator = (function() {
+export const Comparator = (function () {
 
   //#region 私有属性
 
