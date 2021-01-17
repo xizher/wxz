@@ -9,8 +9,11 @@ interface ICallBack<T> {
   origin: this
 }
 
+interface IBaseObject {
+  [key: string]: any
+}
 
-export class Listener<T> {
+export class Listener<T extends IBaseObject> {
   /**
    * 绑定事件
    * @param name 事件名称
@@ -18,7 +21,7 @@ export class Listener<T> {
    * @param scope 事件处理函数上下文
    * @returns 事件处理函数
    */
-  on (name: T['string'], fn: (event?: ICallBack<T['string']> & T['scope']) => void, scope?: any) : (event?: ICallBack<T>) => void
+  on (name: T['string'], fn: (event?: ICallBack<T['string']> & T['data']) => void, scope?: any) : (event?: ICallBack<T>) => void
   /**
    * 触发事件
    * @param name 触发的事件名称
@@ -30,7 +33,7 @@ export class Listener<T> {
    * @param name 取消的绑定事件
    * @param fn 需要的判定事件处理函数（null则移除全部）
    */
-  off (name: T['string'], fn?: (event?: ICallBack<T['string']> & T['scope']) => void): void
+  off (name: T['string'], fn?: (event?: ICallBack<T['string']> & T['data']) => void): void
   /**
    * 绑定一次性事件
    * @param name 事件名称
@@ -38,5 +41,5 @@ export class Listener<T> {
    * @param scope 事件处理函数上下文
    * @returns 事件处理函数
    */
-  once (name: T['string'], fn: (event?: ICallBack<T['string']> & T['scope']) => void, scope?: any): (event?: ICallBack<T>) => void
+  once (name: T['string'], fn: (event?: ICallBack<T['string']> & T['data']) => void, scope?: any): (event?: ICallBack<T>) => void
 }
