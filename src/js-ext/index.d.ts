@@ -78,7 +78,7 @@ interface INumberExtension extends IExtentsion<Number> {
    * 数字转日期字符串
    * @param fmt 日期格式化模板
    */
-  toDateFormat (fmt) : string
+  toDateFormat (fmt: string) : string
   /**
    * 数字转现金字符串
    */
