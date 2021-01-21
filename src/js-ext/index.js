@@ -108,6 +108,12 @@ export function $ext (_this) {
   if (typeof _this === 'number') {
     const __ext__ = __results__({
       /**
+       * 整除
+       * @param { number } val 整除值
+       * @returns { number }
+       */
+      divide: val => Math.floor(_this / val),
+      /**
        * 向下取整
        * @returns { number }
        */

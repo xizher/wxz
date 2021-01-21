@@ -53,6 +53,11 @@ interface IStringExtension extends IExtentsion<String> {
 
 interface INumberExtension extends IExtentsion<Number> {
   /**
+   * 整除
+   * @param val 整除值
+   */
+  divide (val: number) : number
+  /**
    * 向下取整
    */
   floor () : number
