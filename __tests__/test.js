@@ -7,6 +7,7 @@ import {
   LinkedList
 } from '..'
 import { LinkedListNode } from '../src/data-structure/linked-list/linked-list-node'
+import { Matrix } from '../src/linear-algebra/matrix/matrix'
 
 let NO = 1
 function log (sth) {
@@ -267,6 +268,17 @@ function elog () {
     .clear()
   console.log(list.toArray(), list.length, list.isEmpty())
 
+
+  elog()
+}
+{
+  slog()
+
+  const matrix = new Matrix(Array.from({ length: 9 }, (v, i) => i), 3, 3)
+  console.log(matrix.toArray())
+  console.log(matrix.getValue([,1]))
+  console.log(matrix.getValue())
+  console.log(matrix.getValue([1, 1]))
 
   elog()
 }
