@@ -11,6 +11,7 @@ import { esri } from '../esri-modules/esri-modules'
 import { MapElementDisplay } from '../map-element-display/map-element-display'
 import { MapTools } from '../map-tools/map-tools'
 import { EsriUtils } from '../esri-utils/esri-utils'
+import { LayerOperation } from '../layer-operation/layer-operation'
 
 /**
  * WebMap类
@@ -55,6 +56,8 @@ export const WebMap = (function () {
    */
   const _mapTools = new WeakMap()
 
+  const _layerOperation = new WeakMap()
+
   /**
    * 配置项
    * @type { WeakMap<__WebMap__, import('./webmap').IWebMapOptions> }
@@ -95,6 +98,8 @@ export const WebMap = (function () {
    */
   const _loadMapTools = new WeakMap()
 
+  const _loadLayerOperation = new WeakMap()
+
   //#endregion
 
   //#region 类体
@@ -131,6 +136,10 @@ export const WebMap = (function () {
 
     get mapTools () {
       return _mapTools.get(this)
+    }
+
+    get layerOperation () {
+      return _layerOperation.get(this)
     }
 
     get options () {
@@ -182,6 +191,11 @@ export const WebMap = (function () {
         _mapTools.set(this, mapTools)
       })
 
+      _loadLayerOperation.set(this, () => {
+        const layerOperation = new LayerOperation(this.map, this.options.layerOperationOptions)
+        _layerOperation.set(this, layerOperation)
+      })
+
       //#endregion
 
     }
@@ -200,6 +214,7 @@ export const WebMap = (function () {
       _loadBasemap.get(this)()
       _loadMapElementDisplay.get(this)()
       _loadMapTools.get(this)()
+      _loadLayerOperation.get(this)()
 
       this.fire('loaded')
     }
