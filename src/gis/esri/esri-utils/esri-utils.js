@@ -5,6 +5,7 @@
  */
 
 import { esri } from '../esri-modules/esri-modules'
+import { Matrix } from '../../../linear-algebra'
 
 export class EsriUtils {
 
@@ -77,6 +78,88 @@ export class EsriUtils {
    */
   static screenToMapPoint (screenPoint) {
     return EsriUtils.view.toMap(screenPoint)
+  }
+
+  /**
+   * 根据像元数据创建像元矩阵对象
+   * @param { __esri.PixelData } pixelData 像元数据
+   */
+  static createPixelsMatrix (pixelData) {
+    const { extent, pixelBlock } = pixelData
+    const { pixels, width, height } = pixelBlock
+    const martix = new Matrix(pixels[0], height, width)
+
+    /** @param { __esri.Point } point */
+    function _geoXYToSceneXY (point) {
+      const { xmin, ymin, xmax, ymax } = extent
+      const [dx, dy] = [xmax - xmin, ymax - ymin]
+      const [x, y] = [
+        Math.round((point.x - xmin) * (width - 0) / (dx) + 0),
+        Math.round(((ymax - (point.y - ymin) - ymin) * (height - 0)) / (dy) + 0)
+      ]
+      return [x, y]
+    }
+
+    /** @param { __esri.Point } point */
+    function getByGeoPoint (point) {
+      const [x, y] = _geoXYToSceneXY(point)
+      return martix.getValue([y, x])
+    }
+
+    /**
+     *
+     * @param { __esri.Point } startPoint
+     * @param { __esri.Point } endPoint
+     */
+    function getByGeoLine (startPoint, endPoint) {
+      const [startX, startY] = _geoXYToSceneXY(startPoint)
+      const [endX, endY] = _geoXYToSceneXY(endPoint)
+      return DDA()
+
+      function DDA () {
+        const dx = Math.abs(endX - startX)
+        const dy = Math.abs(endY - startY)
+        const k = dx > dy ? dx : dy
+        const xincre = (endX - startX) / k
+        const yincre = (endY - startY) / k
+        let x = startX
+        let y = startY
+        const arr = []
+        for (let i = 0; i < k; i ++) {
+          arr.push(martix.getValue([Math.round(y), Math.round(x)]))
+          x += xincre
+          y += yincre
+        }
+        return arr
+      }
+    }
+
+    return {
+      getByGeoPoint,
+      getByGeoLine,
+    }
+  }
+
+
+  static longitudeToX (longitude) {
+    const point = new esri.geometry.Point({
+      longitude, latitude: 0, spatialReference: EsriUtils.view.spatialReference
+    })
+    return point.x
+  }
+
+  static latitudeToY (latitude) {
+    const point = new esri.geometry.Point({
+      longitude: 0, latitude, spatialReference: EsriUtils.view.spatialReference
+    })
+    return point.y
+  }
+
+  static lonLatToXY ([longitude, latitude]) {
+    const point = new esri.geometry.Point({
+      longitude, latitude, spatialReference: EsriUtils.view.spatialReference
+    })
+    return [point.x, point.y]
   }
 
 }
