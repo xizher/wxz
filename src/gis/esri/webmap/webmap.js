@@ -12,6 +12,7 @@ import { MapElementDisplay } from '../map-element-display/map-element-display'
 import { MapTools } from '../map-tools/map-tools'
 import { EsriUtils } from '../esri-utils/esri-utils'
 import { LayerOperation } from '../layer-operation/layer-operation'
+import { registerEsriExts } from '../esri-exts/esri-exts'
 
 /**
  * WebMap类
@@ -56,6 +57,10 @@ export const WebMap = (function () {
    */
   const _mapTools = new WeakMap()
 
+  /**
+   * 图层操作对象
+   * @type { WeakMap<__WebMap__, LayerOperation> }
+   */
   const _layerOperation = new WeakMap()
 
   /**
@@ -208,15 +213,31 @@ export const WebMap = (function () {
      * 加载WebMap
      */
     load () {
+      esri.config.request.timeout = '600000' // 超时时间限度10分钟
       _loadMap.get(this)()
       _loadMapView.get(this)()
       EsriUtils.register(this.map)(this.view)
+      registerEsriExts(this.map)(this.view)
       _loadBasemap.get(this)()
-      _loadMapElementDisplay.get(this)()
       _loadMapTools.get(this)()
       _loadLayerOperation.get(this)()
+      _loadMapElementDisplay.get(this)()
 
       this.fire('loaded')
+    }
+
+    /**
+     * 缩放至图层
+     * @param { string | __esri.Layer } layerName 图层名
+     */
+    zoomToLayer (layerName) {
+      if (typeof layerName === 'string') {
+        const layer = this.layerOperation.findLayerByName(layerName)
+        this.view.goTo(layer.fullExtent)
+      } else if (layerName instanceof esri.layers.Layer) {
+        this.view.goTo(layerName.fullExtent)
+      }
+      return this
     }
 
     //#endregion
