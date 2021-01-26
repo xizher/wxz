@@ -24,6 +24,7 @@ import Extent from 'esri/geometry/Extent'
 import FeatureLayer from 'esri/layers/FeatureLayer'
 import Swipe from 'esri/widgets/Swipe'
 import watchUtils from 'esri/core/watchUtils'
+import Layer from 'esri/layers/Layer'
 
 /**
  * esri模块命名空间
@@ -36,6 +37,7 @@ export declare const esri = {
     SceneView,
   },
   layers: {
+    Layer,
     WebTileLayer,
     ImageryLayer,
     GroupLayer,

@@ -30,6 +30,7 @@ export class EsriModules {
     'esri/geometry/Extent',
     'esri/widgets/Swipe',
     'esri/core/watchUtils',
+    'esri/layers/Layer',
   ]
 
   /**
