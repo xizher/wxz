@@ -22,6 +22,7 @@ export declare class Drawer {
   setDrawedStyle (style: IDrawerStyle) : this
   setDrawingStyle (style: IDrawerStyle) : this
   add (geometries: __esri.Geometry | __esri.Geometry[]) :this
+  add (geometries: __esri.Geometry | __esri.Geometry[], returnGraphics: true) : __esri.Graphic | __esri.Graphic[]
   clear () : this
   set (geometries: __esri.Geometry | __esri.Geometry[]) :this
   setTemp (geometries: __esri.Geometry | __esri.Geometry[]) :this

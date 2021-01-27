@@ -106,9 +106,9 @@ export const Drawer = (function () {
     /**
      * 添加图形
      * @param { __esri.Geometry | __esri.Geometry[] } geometries 图形
-     * @returns { __Drawer__ } this
+     * @returns { __Drawer__ | __esri.Graphic | __esri.Graphic[] } this
      */
-    add (geometries) {
+    add (geometries, returnGraphics = false) {
       const graphics = this.mapElementDisplay.parseGraphics(geometries, this.drawedStyle)
       Array.isArray(graphics)
         ? this.graphicsList.push(...graphics)
@@ -116,7 +116,11 @@ export const Drawer = (function () {
       this.mapElementDisplay
         .clearTempGraphics()
         .addGraphics(graphics)
-      return this
+      if (returnGraphics) {
+        return graphics
+      } else {
+        return this
+      }
     }
 
     /**
