@@ -228,9 +228,9 @@ export const MapElementDisplay = (function () {
       }
       BaseUtils.deepExtent(true, symbol, symbolOptions)
       if (Array.isArray(geomeytries)) {
-        return geomeytries.map(geometry => ({ geometry, symbol }))
+        return geomeytries.map(geometry => new esri.Graphic({ geometry, symbol }))
       } else {
-        return { geometry: geomeytries, symbol }
+        return new esri.Graphic({ geometry: geomeytries, symbol })
       }
     }
 
