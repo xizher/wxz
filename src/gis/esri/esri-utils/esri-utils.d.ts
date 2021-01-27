@@ -4,11 +4,13 @@
  * 联系方式：xizher@163.com | 198907836@qq.com
  */
 
+import { Matrix } from '../../../linear-algebra';
 import { $Map, $View } from '../webmap/webmap';
 
 export declare interface IPixelsMatrix {
   getByGeoPoint (point: __esri.Point) : number
   getByGeoLine (startPoint: __esri.Point, endPoint: __esri.Point) : number[]
+  matrix: Matrix
 }
 export declare class EsriUtils {
   static register (map: $Map) : (view: $View) => void

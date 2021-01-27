@@ -87,7 +87,7 @@ export class EsriUtils {
   static createPixelsMatrix (pixelData) {
     const { extent, pixelBlock } = pixelData
     const { pixels, width, height } = pixelBlock
-    const martix = new Matrix(pixels[0], height, width)
+    const matrix = new Matrix(pixels[0], height, width)
 
     /** @param { __esri.Point } point */
     function _geoXYToSceneXY (point) {
@@ -103,7 +103,7 @@ export class EsriUtils {
     /** @param { __esri.Point } point */
     function getByGeoPoint (point) {
       const [x, y] = _geoXYToSceneXY(point)
-      return martix.getValue([y, x])
+      return matrix.getValue([y, x])
     }
 
     /**
@@ -126,7 +126,7 @@ export class EsriUtils {
         let y = startY
         const arr = []
         for (let i = 0; i < k; i ++) {
-          arr.push(martix.getValue([Math.round(y), Math.round(x)]))
+          arr.push(matrix.getValue([Math.round(y), Math.round(x)]))
           x += xincre
           y += yincre
         }
@@ -137,6 +137,7 @@ export class EsriUtils {
     return {
       getByGeoPoint,
       getByGeoLine,
+      matrix,
     }
   }
 
