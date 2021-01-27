@@ -77,8 +77,8 @@ export const DrawTool = (function () {
 
     onDrawEnd (event) {
       if (super.onDrawEnd(event)) {
-        this.drawer.add(event.geometry)
-        return true
+        const graphics = this.drawer.add(event.geometry, true)
+        return graphics
       } else {
         return false
       }
@@ -93,8 +93,8 @@ export const DrawTool = (function () {
       }
     }
 
-    onToolDeactive (event) {
-      if (super.onToolDeactive(event)) {
+    onToolDeActiced (event) {
+      if (super.onToolDeActiced(event)) {
         DrawOperations.clearDrawType()
         return true
       } else {
