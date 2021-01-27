@@ -219,9 +219,9 @@ export const WebMap = (function () {
       EsriUtils.register(this.map)(this.view)
       registerEsriExts(this.map)(this.view)
       _loadBasemap.get(this)()
-      _loadMapTools.get(this)()
       _loadLayerOperation.get(this)()
       _loadMapElementDisplay.get(this)()
+      _loadMapTools.get(this)()
 
       this.fire('loaded')
     }

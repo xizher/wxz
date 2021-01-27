@@ -8,6 +8,7 @@ import { Listener } from "../../../listener/listener"
 import { Basemap, IBasemapOptions } from "../basemap/basemap"
 import { LayerOperation } from "../layer-operation/layer-operation"
 import { MapElementDisplay } from "../map-element-display/map-element-display"
+import { MapTools } from "../map-tools/map-tools"
 
 
 export declare class $Map extends __esri.Map {
@@ -31,6 +32,7 @@ export declare class WebMap extends Listener<{ string: 'loaded', data: {} }> {
   get basemap () : Basemap
   get options () : IWebMapOptions
   get mapElementDisplay () : MapElementDisplay
+  get mapTools () : MapTools
   get layerOperation () : LayerOperation
   load () : void
   zoomToLayer (layerName: string) : this
