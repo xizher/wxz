@@ -31,6 +31,7 @@ export class EsriModules {
     'esri/widgets/Swipe',
     'esri/core/watchUtils',
     'esri/layers/Layer',
+    'esri/Graphic',
   ]
 
   /**
