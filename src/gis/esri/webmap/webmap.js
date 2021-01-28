@@ -13,6 +13,7 @@ import { MapTools } from '../map-tools/map-tools'
 import { EsriUtils } from '../esri-utils/esri-utils'
 import { LayerOperation } from '../layer-operation/layer-operation'
 import { registerEsriExts } from '../esri-exts/esri-exts'
+import { Highlight } from '../highlight/highlight'
 
 /**
  * WebMap类
@@ -64,6 +65,12 @@ export const WebMap = (function () {
   const _layerOperation = new WeakMap()
 
   /**
+   * 高亮对象
+   * @type { WeakMap<__WebMap__, Highlight> }
+   */
+  const _highlight = new WeakMap()
+
+  /**
    * 配置项
    * @type { WeakMap<__WebMap__, import('./webmap').IWebMapOptions> }
    */
@@ -102,6 +109,12 @@ export const WebMap = (function () {
    * @type { WeakMap<__WebMap__, () => void> }
    */
   const _loadMapTools = new WeakMap()
+
+  /**
+   * 加载高亮操作类
+   * @type { WeakMap<__WebMap__, () => void> }
+   */
+  const _loadHighlight = new WeakMap()
 
   const _loadLayerOperation = new WeakMap()
 
@@ -145,6 +158,10 @@ export const WebMap = (function () {
 
     get layerOperation () {
       return _layerOperation.get(this)
+    }
+
+    get highlight () {
+      return _highlight.get(this)
     }
 
     get options () {
@@ -201,6 +218,11 @@ export const WebMap = (function () {
         _layerOperation.set(this, layerOperation)
       })
 
+      _loadHighlight.set(this, () => {
+        const highlight = new Highlight(this.view)
+        _highlight.set(this, highlight)
+      })
+
       //#endregion
 
     }
@@ -222,6 +244,7 @@ export const WebMap = (function () {
       _loadLayerOperation.get(this)()
       _loadMapElementDisplay.get(this)()
       _loadMapTools.get(this)()
+      _loadHighlight.get(this)()
 
       this.fire('loaded')
     }
@@ -239,6 +262,12 @@ export const WebMap = (function () {
       }
       return this
     }
+
+    // #test = 2
+
+    // #test2 () {
+    //   console.log('t')
+    // }
 
     //#endregion
 

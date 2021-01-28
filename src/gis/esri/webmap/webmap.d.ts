@@ -6,6 +6,7 @@
 
 import { Listener } from "../../../listener/listener"
 import { Basemap, IBasemapOptions } from "../basemap/basemap"
+import { Highlight } from "../highlight/highlight"
 import { LayerOperation } from "../layer-operation/layer-operation"
 import { MapElementDisplay } from "../map-element-display/map-element-display"
 import { MapTools } from "../map-tools/map-tools"
@@ -34,6 +35,7 @@ export declare class WebMap extends Listener<{ string: 'loaded', data: {} }> {
   get mapElementDisplay () : MapElementDisplay
   get mapTools () : MapTools
   get layerOperation () : LayerOperation
+  get highlight () : Highlight
   load () : void
   zoomToLayer (layerName: string) : this
   zoomToLayer (layer: __esri.Layer) : this
