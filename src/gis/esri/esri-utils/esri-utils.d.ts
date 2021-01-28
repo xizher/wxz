@@ -22,4 +22,5 @@ export declare class EsriUtils {
   static longitudeToX (longitude: number) : number
   static latitudeToY (latitude: number) : number
   static lonLatToXY (lonlat: [number, number]) : [number, number]
+  static synchronizeViews (views: __esri.MapView[] | __esri.SceneView) : { remove() : void }
 }
