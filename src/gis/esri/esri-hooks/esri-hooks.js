@@ -25,3 +25,15 @@ export function usePixelData (layer) {
     loaded, () => pixelData
   ]
 }
+
+export function useViewOn (name, callback, view = useWebMap().view) {
+  let eventHandler = null
+
+  eventHandler = view.on(name, callback)
+
+  onUnmounted(() => {
+    eventHandler && eventHandler.remove()
+  })
+
+  return eventHandler
+}
