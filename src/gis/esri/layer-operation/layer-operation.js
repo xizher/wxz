@@ -98,7 +98,7 @@ export const LayerOperation = (function () {
         const { target, name, alias, key } = layerItem
         const layer = _loadLayer.get(this)(target)
         if (layer) {
-          this.layerGroup.add(layer)
+          this.layerGroup.add(layer, this.layerGroup.layers.length)
           this.layerList.push({
             name, alias, key, target, targetLayer: layer
           })
@@ -172,6 +172,16 @@ export const LayerOperation = (function () {
      */
     setAllLayersInvisible () {
       this.layerList.forEach(item => item.targetLayer.visible = false)
+      return this
+    }
+
+    /**
+     * 设置图层层级
+     * @param { __esri.Layer } layer 图层对象
+     * @param { number } level 图层层级
+     */
+    setLayerLevel (layer, level) {
+      this.layerGroup.reorder(layer, level)
       return this
     }
 

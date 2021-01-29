@@ -26,4 +26,5 @@ export declare class LayerOperation {
   setLayerVisible (layerName: string, visible: boolean) : this
   setAllLayersInvisible () : this
   setLayerVisibleAndZoomTo (layerName: string) : this
+  setLayerLevel (layer: __esri.Layer, level: number) : this
 }
