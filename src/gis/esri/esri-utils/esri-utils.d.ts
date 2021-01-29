@@ -11,6 +11,7 @@ export declare interface IPixelsMatrix {
   getByGeoPoint (point: __esri.Point) : number
   getByGeoLine (startPoint: __esri.Point, endPoint: __esri.Point) : number[]
   matrix: Matrix
+  getByGeoPolygon (points: __esri.Polygon) : number[]
 }
 export declare class EsriUtils {
   static register (map: $Map) : (view: $View) => void

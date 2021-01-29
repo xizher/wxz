@@ -114,30 +114,197 @@ export class EsriUtils {
     function getByGeoLine (startPoint, endPoint) {
       const [startX, startY] = _geoXYToSceneXY(startPoint)
       const [endX, endY] = _geoXYToSceneXY(endPoint)
-      return DDA()
+      return DDA([startX, startY], [endX, endY])
 
-      function DDA () {
-        const dx = Math.abs(endX - startX)
-        const dy = Math.abs(endY - startY)
-        const k = dx > dy ? dx : dy
-        const xincre = (endX - startX) / k
-        const yincre = (endY - startY) / k
-        let x = startX
-        let y = startY
-        const arr = []
-        for (let i = 0; i < k; i ++) {
-          arr.push(matrix.getValue([Math.round(y), Math.round(x)]))
-          x += xincre
-          y += yincre
-        }
-        return arr
+    }
+    function DDA ([startX, startY], [endX, endY]) {
+      const dx = Math.abs(endX - startX)
+      const dy = Math.abs(endY - startY)
+      const k = dx > dy ? dx : dy
+      const xincre = (endX - startX) / k
+      const yincre = (endY - startY) / k
+      let x = startX
+      let y = startY
+      const arr = []
+      for (let i = 0; i < k; i ++) {
+        arr.push(matrix.getValue([Math.round(y), Math.round(x)]))
+        x += xincre
+        y += yincre
       }
+      return arr
+    }
+
+    /**
+     *
+     * @param { __esri.Polygon } polygon
+     */
+    function getByGeoPolygon (polygon) {
+
+      const pts = []
+      for (let i = 0; i < polygon.rings[0].length; i++) {
+        const point = polygon.getPoint(0, i)
+        pts.push(_geoXYToSceneXY(point))
+      }
+
+      class SideInfo {
+        constructor () {
+          this.yTop = 0
+          this.xInt = 0
+          this.deltaY = 0
+          this.xChangePerScan = 0
+        }
+      }
+      class ScanLineFilling {
+        static firstS = 0
+        static lastS = 0
+        /** @type { SideInfo[] } */
+        static sides = []
+        static resultArr = []
+
+        static scanFill (points) {
+          ScanLineFilling.sides = []
+          ScanLineFilling.resultArr = []
+          const bottomsacn = ScanLineFilling.buildSidesList(points)
+          ScanLineFilling.sortSidesList()
+          ScanLineFilling.firstS = 0
+          ScanLineFilling.lastS = 0
+          for (let scan = ScanLineFilling.sides[0].yTop; scan > bottomsacn; scan--) {
+            ScanLineFilling.updateFirstAndLast(ScanLineFilling.sides.length, scan)
+            const xIntCount = ScanLineFilling.processXIntersections()
+            ScanLineFilling.getLineValue(scan, xIntCount, ScanLineFilling.firstS)
+            ScanLineFilling.updateSidesList()
+          }
+          return ScanLineFilling.resultArr
+        }
+
+        static buildSidesList (vertexes) {
+          let n = vertexes.length
+          let p1, p2, p3
+          p1 = n - 1
+          let bottomsacn = vertexes[p1][1]
+          for (let i = 0; i < n; i++) {
+            p2 = i
+            p3 = (i + 1) % n
+            if (vertexes[p1][1] === vertexes[p2][1]) {
+              ScanLineFilling.resultArr.push(...DDA(vertexes[p1], vertexes[p2]))
+            } else {
+              const changePerscan = (vertexes[p2][0] - vertexes[p1][0]) / (vertexes[p2][1] - vertexes[p1][1])
+              let xIntTmp = vertexes[p2][0]
+              ScanLineFilling.sides.push(new SideInfo())
+              ScanLineFilling.sides[ScanLineFilling.sides.length - 1].deltaY = Math.abs(vertexes[p1][1] - vertexes[p2][1])
+              if (vertexes[p1][1] < vertexes[p2][1] && vertexes[p2][1] < vertexes[p3][1]) {
+                vertexes[p2][1]--
+                xIntTmp = xIntTmp - parseInt(changePerscan)
+                ScanLineFilling.sides[ScanLineFilling.sides.length - 1].deltaY--
+              } else if (vertexes[p1][1] > vertexes[p2][1] && vertexes[p2][1] > vertexes[p3][1]) {
+                vertexes[p2][1]++
+                xIntTmp = vertexes[p1][0]
+                ScanLineFilling.sides[ScanLineFilling.sides.length - 1].deltaY--
+              }
+              ScanLineFilling.sides[ScanLineFilling.sides.length - 1].xChangePerScan = changePerscan
+              ScanLineFilling.sides[ScanLineFilling.sides.length - 1].xInt = vertexes[p1][1] > vertexes[p2][1] ? vertexes[p1][0] : xIntTmp
+              ScanLineFilling.sides[ScanLineFilling.sides.length - 1].yTop = Math.max(vertexes[p1][1], vertexes[p2][1])
+            }
+            if (vertexes[p2][1] < bottomsacn) {
+              bottomsacn = vertexes[p2][1]
+            }
+            p1 = p2
+          }
+          return bottomsacn
+        }
+
+        static sortSidesList () {
+          for (let i = ScanLineFilling.sides.length - 1; i > 0; i--) {
+            for (let j = 0; j < i; j++) {
+              if (ScanLineFilling.sides[j].yTop < ScanLineFilling.sides[j + 1].yTop) {
+                const temp = ScanLineFilling.sides[j]
+                ScanLineFilling.sides[j] = ScanLineFilling.sides[j + 1]
+                ScanLineFilling.sides[j + 1] = temp
+              }
+            }
+          }
+        }
+
+        static swap (entry) {
+          let temp
+          temp = ScanLineFilling.sides[entry].yTop
+          ScanLineFilling.sides[entry].yTop = ScanLineFilling.sides[entry - 1].yTop
+          ScanLineFilling.sides[entry - 1].yTop = temp
+          temp = ScanLineFilling.sides[entry].xInt
+          ScanLineFilling.sides[entry].xInt = ScanLineFilling.sides[entry - 1].xInt
+          ScanLineFilling.sides[entry - 1].xInt = temp
+          temp = ScanLineFilling.sides[entry].deltaY
+          ScanLineFilling.sides[entry].deltaY = ScanLineFilling.sides[entry - 1].deltaY
+          ScanLineFilling.sides[entry - 1].deltaY = temp
+          temp = ScanLineFilling.sides[entry].xChangePerScan
+          ScanLineFilling.sides[entry].xChangePerScan = ScanLineFilling.sides[entry - 1].xChangePerScan
+          ScanLineFilling.sides[entry - 1].xChangePerScan = temp
+        }
+
+        static updateFirstAndLast (count, scan) {
+          while (ScanLineFilling.lastS < count - 1 && ScanLineFilling.sides[ScanLineFilling.lastS + 1].yTop >= scan) {
+            ScanLineFilling.lastS++
+          }
+          while (ScanLineFilling.sides[ScanLineFilling.firstS].deltaY === 0 && ScanLineFilling.firstS < ScanLineFilling.lastS) {
+            ScanLineFilling.firstS++
+          }
+        }
+
+        static sortOnX (entry) {
+          while (entry > ScanLineFilling.firstS && ScanLineFilling.sides[entry].xInt < ScanLineFilling.sides[entry - 1].xInt) {
+            ScanLineFilling.swap(entry)
+            entry--
+          }
+        }
+
+        static processXIntersections (/* scan */) {
+          let xIntCount = 0
+          for (let i = ScanLineFilling.firstS; i < ScanLineFilling.lastS + 1; i++) {
+            if (ScanLineFilling.sides[i].deltaY > 0) {
+              xIntCount++
+              ScanLineFilling.sortOnX(i)
+            }
+          }
+          return xIntCount
+        }
+
+        static getLineValue (scan, xIntCount, index) {
+          for (let i = 1; i < xIntCount / 2; i++) {
+            while (ScanLineFilling.sides[index].deltaY === 0) {
+              index++
+            }
+            const x1 = parseInt(ScanLineFilling.sides[index].xInt)
+            index++
+            while (ScanLineFilling.sides[index].deltaY === 0) {
+              index++
+            }
+            const x2 = parseInt(ScanLineFilling.sides[index].xInt)
+            ScanLineFilling.resultArr.push(...DDA([x1, scan], [x2, scan]))
+            index++
+          }
+        }
+
+        static updateSidesList () {
+          for (let i = ScanLineFilling.firstS; i < ScanLineFilling.lastS; i++) {
+            if (ScanLineFilling.sides[i].deltaY > 0) {
+              ScanLineFilling.sides[i].deltaY--
+              ScanLineFilling.sides[i].xInt -= ScanLineFilling.sides[i].xChangePerScan
+            }
+          }
+        }
+      }
+
+      console.log(pts)
+
+      const result = ScanLineFilling.scanFill(pts)
+      console.log(result)
     }
 
     return {
       getByGeoPoint,
       getByGeoLine,
       matrix,
+      getByGeoPolygon,
     }
   }
 
