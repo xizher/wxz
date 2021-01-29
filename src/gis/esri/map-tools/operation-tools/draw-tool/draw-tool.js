@@ -52,6 +52,17 @@ export const DrawTool = (function () {
 
     //#endregion
 
+    //#region setter
+
+    set drawType (type) {
+      _drawType.set(this, type)
+      if (this.actived) {
+        this.drawOperations.setDrawType(this.drawType)
+      }
+    }
+
+    //#endregion
+
     //#region 构造函数
 
     constructor (map, view, drawType) {

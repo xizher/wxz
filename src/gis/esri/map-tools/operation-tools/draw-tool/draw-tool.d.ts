@@ -32,4 +32,5 @@ export declare class DrawTool extends BaseTool<
   get drawer () : Drawer
   get drawOperation () : DrawOperations
   get drawType () : EDrawType
+  set drawType (type: EDrawType)
 }
