@@ -6,6 +6,8 @@
 
 import { esri } from '../../../esri-modules/esri-modules'
 import { EsriUtils } from '../../../esri-utils/esri-utils'
+import { $ext } from '../../../../../js-ext'
+import { $esriExt } from '../../../esri-exts/esri-exts'
 
 /**
  * 绘制操作类
@@ -146,7 +148,7 @@ export const DrawOperations = (function () {
         event.stopPropagation()
         drawing = false
         const polyline = EsriUtils.pointsToPolyline([...points, event.mapPoint])
-        points.$clear()
+        $ext(points).clear()
         drawTool.fire('draw-end', { geometry: polyline })
       })
       __DrawOperations__.removed['click'] = drawTool.view.on('click', event => {
@@ -182,7 +184,7 @@ export const DrawOperations = (function () {
         event.stopPropagation()
         drawing = false
         const polygon = EsriUtils.pointsToPolygon([...points, event.mapPoint])
-        points.$clear()
+        $ext(points).clear()
         drawTool.fire('draw-end', { geometry: polygon })
       })
       __DrawOperations__.removed['click'] = drawTool.view.on('click', event => {
@@ -219,7 +221,8 @@ export const DrawOperations = (function () {
           drawing = false
           const endPoint = event.mapPoint
           const polyline = EsriUtils.pointsToPolyline([startPoint, endPoint])
-          drawTool.fire('draw-end', { geometry: polyline.extent })
+          const rectangle = $esriExt(polyline.extent).toPolygon()
+          drawTool.fire('draw-end', { geometry: rectangle })
         } else { // 绘制第一个起始端点
           drawing = true
           startPoint = event.mapPoint
@@ -230,7 +233,8 @@ export const DrawOperations = (function () {
         if (drawing) {
           const endPoint = EsriUtils.screenToMapPoint(event)
           const polyline = EsriUtils.pointsToPolyline([startPoint, endPoint])
-          drawTool.fire('draw-moving', { geometry: polyline.extent })
+          const rectangle = $esriExt(polyline.extent).toPolygon()
+          drawTool.fire('draw-moving', { geometry: rectangle })
         }
       })
     }
@@ -261,13 +265,15 @@ export const DrawOperations = (function () {
         drawing = false
         const endPoint = EsriUtils.screenToMapPoint(event)
         const polyline = EsriUtils.pointsToPolyline([startPoint, endPoint])
-        drawTool.fire('draw-end', { geometry: polyline.extent })
+        const rectangle = $esriExt(polyline.extent).toPolygon()
+        drawTool.fire('draw-end', { geometry: rectangle })
       })
       __DrawOperations__.removed['pointer-move'] = drawTool.view.on('pointer-move', event => {
         if (drawing) {
           const endPoint = EsriUtils.screenToMapPoint(event)
           const polyline = EsriUtils.pointsToPolyline([startPoint, endPoint])
-          drawTool.fire('draw-moving', { geometry: polyline.extent })
+          const rectangle = $esriExt(polyline.extent).toPolygon()
+          drawTool.fire('draw-moving', { geometry: rectangle })
         }
       })
     }
