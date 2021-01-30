@@ -140,12 +140,6 @@ export class EsriUtils {
      */
     function getByGeoPolygon (polygon) {
 
-      const pts = []
-      for (let i = 0; i < polygon.rings[0].length; i++) {
-        const point = polygon.getPoint(0, i)
-        pts.push(_geoXYToSceneXY(point))
-      }
-
       class SideInfo {
         constructor () {
           this.yTop = 0
@@ -293,11 +287,19 @@ export class EsriUtils {
           }
         }
       }
+      const result = []
+      for (let i = 0; i < polygon.rings.length; i++) {
+        const pts = []
+        for (let j = 0; j < polygon.rings[i].length; j++) {
+          const point = polygon.getPoint(i, j)
+          pts.push(_geoXYToSceneXY(point))
+        }
+        try { // 忽略小图形情况
+          result.push(...ScanLineFilling.scanFill(pts))
+        } catch { /**/ }
+      }
 
-      console.log(pts)
-
-      const result = ScanLineFilling.scanFill(pts)
-      console.log(result)
+      return result
     }
 
     return {

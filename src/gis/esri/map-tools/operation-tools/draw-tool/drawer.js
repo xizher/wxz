@@ -160,7 +160,7 @@ export const Drawer = (function () {
      * @returns { __Drawer__ } this
      */
     setTemp (geometries) {
-      const graphics = this.mapElementDisplay.parseGraphics(geometries, this.drawedStyle)
+      const graphics = this.mapElementDisplay.parseGraphics(geometries, this.drawingStyle)
       this.mapElementDisplay.setTempGraphics(graphics)
       return this
     }
