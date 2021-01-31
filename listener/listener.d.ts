@@ -1,19 +1,17 @@
 
-export declare interface IListenerCallBack<T extends String> {
+export declare interface IListenerCallBack<T> {
   name: T
   origin: this
 }
 
-export declare interface IListenerListenType<T> {
+export declare interface IListenerListenType {
   [key: string]: any
-  name: string
-  data: T
 }
 
 /**
  * 监听器
  */
-export declare class Listener<T extends IListenerListenType<any>> {
+export declare class Listener<T extends IListenerListenType> {
 
   /**
    * 绑定事件
