@@ -18,7 +18,7 @@ export declare interface $SceneView extends __esri.SceneView {
   $owner: WebMap
 }
 
-export declare interface $View extends $MapView, $SceneView { }
+export declare type $View = $MapView | $SceneView
 
 export declare interface IWebMapOptions {
   viewOptions: __esri.MapViewProperties | __esri.SceneViewProperties
@@ -29,7 +29,7 @@ export declare interface IWebMapPlugin {
   REGISTER_PLUGIN (webMap: WebMap) : void
 }
 
-export declare interface IWebMapStaticPlugin {
+export declare class WebMapStaticPlugin {
   static PLUGIN_NAME: string
   static REGISTER_PLUGIN (webMap: WebMap) : void
 }

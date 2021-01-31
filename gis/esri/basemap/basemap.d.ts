@@ -1,4 +1,4 @@
-import { $Map, IWebMapPlugin } from "../web-map/web-map";
+import { $Map, IWebMapPlugin, WebMap } from "../web-map/web-map";
 
 export declare interface IBasemapItems {
   [key: string]: {
@@ -21,6 +21,8 @@ export declare interface IBasemapOptions {
 }
 
 export declare class Basemap implements IWebMapPlugin {
+  PLUGIN_NAME: 'basemap'
+  REGISTER_PLUGIN (webMap: WebMap) : void
   constructor (map: $Map, options: IBasemapOptions)
   get selectedKey () : string
   set selectedKey (key: string)
