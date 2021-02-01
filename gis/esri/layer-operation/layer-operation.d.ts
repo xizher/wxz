@@ -1,4 +1,4 @@
-import { IWebMapPlugin } from "../web-map/web-map";
+import { IWebMapPlugin, WebMap } from "../web-map/web-map";
 
 export declare interface ILayerOperationLayerPool {
   [name: string]: {
@@ -25,6 +25,8 @@ export declare interface ILayerOperationOptions {
 }
 
 export declare class LayerOperation implements IWebMapPlugin {
+  PLUGIN_NAME: string
+  REGISTER_PLUGIN (webMap: WebMap) : void
   constructor (options: ILayerOperationOptions)
   get count () : number
   findLayerByName (layerName: string) : __esri.Layer | null
@@ -34,7 +36,7 @@ export declare class LayerOperation implements IWebMapPlugin {
   setLayerLevelToTop (layer: __esri.Layer) : this
   cloneLayer (layerName: string) : this
   cloneLayer (layer: __esri.Layer) : this
-  setLayerVisible (layerName: string, visible: boolean = true) : this
+  setLayerVisible (layerName: string, visible?: boolean) : this
   zoomToLayer (layerName: string) : this
   zoomToLayer (layer: __esri.Layer) : this
   zoomToLayerAsync (layerName: string) : Promise<void>

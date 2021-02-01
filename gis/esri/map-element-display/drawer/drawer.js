@@ -19,7 +19,7 @@ export class Drawer {
 
   /**
    * 绘制结果图形样式
-   * @type { import('./drawer').IDrawerStyle }
+   * @type { import('./drawer').EDrawerStyle }
    */
   #drawedStyle = {
     color: [255, 0, 0, .5],
@@ -27,7 +27,7 @@ export class Drawer {
 
   /**
    * 绘制进行时样式
-   * @type { import('./drawer').IDrawerStyle }
+   * @type { import('./drawer').EDrawerStyle }
    */
   #drawingStyle = {
     color: [255, 0, 0, .3],
@@ -54,7 +54,7 @@ export class Drawer {
 
   /**
    * 设置绘制图形样式
-   * @param { import('./drawer').IDrawerStyle } style 样式
+   * @param { import('./drawer').EDrawerStyle } style 样式
    * @returns { Drawer } this
    */
   setDrawedStyle (style) {
@@ -64,7 +64,7 @@ export class Drawer {
 
   /**
    * 设置绘制中图形样式
-   * @param { import('./drawer').IDrawerStyle } style 样式
+   * @param { import('./drawer').EDrawerStyle } style 样式
    * @returns { Drawer } this
    */
   setDrawingStyle (style) {

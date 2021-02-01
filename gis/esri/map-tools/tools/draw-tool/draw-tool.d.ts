@@ -1,4 +1,5 @@
 import { Drawer } from "../../../map-element-display/drawer/drawer";
+import { $Map, $View } from "../../../web-map/web-map";
 import { BaseTool } from '../../base-tool/base-tool'
 
 export declare type EDrawType =
@@ -34,7 +35,7 @@ export declare class DrawTool extends BaseTool<
   { string: 'draw-end', data: { geometry: __esri.Geometry } }
 > {
   constructor (map: $Map, view: $View, drawType: EDrawType)
-  get cursorType () : 'draw'
+  get cursorType () : string
   get drawer () : Drawer
   setDrawType (type: EDrawType) : this
   clearDrawed () : this

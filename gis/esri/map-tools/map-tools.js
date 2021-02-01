@@ -101,7 +101,7 @@ export class MapTools {
    */
   setMapTool (toolKey) {
     let targetTool = this.#toolPool[toolKey]
-    if (targetTool.once) {
+    if (targetTool.isOnce) {
       targetTool.active()
     } else {
       for (const key in this.#toolPool) {

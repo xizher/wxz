@@ -1,15 +1,15 @@
-import { IListenerCallBack, IListenerListenType, Listener } from "../../../../listener";
+import { IListenerCallback, IListenerListenType, Listener } from "../../../../listener";
 import { $Map, $View, IWebMapPlugin } from "../../web-map/web-map";
 
-export declare class BaseTool<T extends IListenerListenType> extends Listener<T> implements IWebMapPlugin {
-  constructor (map: $Map, view: $View, once: boolean = false)
+export declare class BaseTool<T extends IListenerListenType> extends Listener<T> {
+  constructor (map: $Map, view: $View, once?: boolean)
   get map () : $Map
   get view () : $View
   get actived () : boolean
-  get once () : boolean
+  get isOnce () : boolean
   active () : this
   deactive () : this
-  onToolActived (event: IListenerCallBack<'tool-actived'>) : boolean
+  onToolActived (event: IListenerCallback<'tool-actived'>) : boolean
   onToolDeActiced (event: IListenerCallback<'tool-deactived'>) : boolean
   onToolClear (event: IListenerCallback<'tool-clear'>) : boolean
   onDrawStart (event: IListenerCallback<'draw-start'>) : boolean

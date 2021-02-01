@@ -43,7 +43,7 @@ export class BaseTool extends Listener {
     return this.#actived
   }
 
-  get once () {
+  get isOnce () {
     return this.#once
   }
 

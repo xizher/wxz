@@ -1,5 +1,5 @@
 
-export declare interface IListenerCallBack<T> {
+export declare interface IListenerCallback<T> {
   name: T
   origin: this
 }
@@ -22,9 +22,9 @@ export declare class Listener<T extends IListenerListenType> {
    */
   on (
     name: T['name'],
-    fn: (event?: IListenerCallBack<T['name']> & T['data']) => any,
+    fn: (event?: IListenerCallback<T['name']> & T['data']) => any,
     context?: any
-  ) : (event?: IListenerCallBack<T['name']> & T['data']) => any
+  ) : (event?: IListenerCallback<T['name']> & T['data']) => any
 
   /**
    * 触发事件
@@ -43,7 +43,7 @@ export declare class Listener<T extends IListenerListenType> {
    */
   off (
     name: T['name'],
-    fn?: (event?: IListenerCallBack<T['name']> & T['data']) => any,
+    fn?: (event?: IListenerCallback<T['name']> & T['data']) => any,
   ) : void
 
   /**
@@ -55,8 +55,8 @@ export declare class Listener<T extends IListenerListenType> {
    */
   once (
     name: T['name'],
-    fn: (event?: IListenerCallBack<T['name']> & T['data']) => any,
+    fn: (event?: IListenerCallback<T['name']> & T['data']) => any,
     context?: any
-  ) : (event?: IListenerCallBack<T['name']> & T['data']) => any
+  ) : (event?: IListenerCallback<T['name']> & T['data']) => any
 
 }

@@ -1,4 +1,4 @@
-import { IWebMapPlugin } from "../web-map/web-map";
+import { IWebMapPlugin, WebMap } from "../web-map/web-map";
 
 export * from './drawer/drawer'
 
@@ -9,6 +9,8 @@ export declare interface IDefaultSumbols {
 }
 
 export declare class MapElementDisplay implements IWebMapPlugin {
+  PLUGIN_NAME: string
+  REGISTER_PLUGIN (webMap: WebMap): void
   addGraphics (graphics: __esri.Graphic | __esri.Graphic[]) : this
   clearGraphics () : this
   removeGraphics (graphics: __esri.Graphic | __esri.Graphic[]) : this
