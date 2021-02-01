@@ -41,4 +41,31 @@ export declare class Matrix {
    * @returns 二维数字数组
    */
   toArray () : number[][]
+  /**
+   * 直线扫描算法
+   * @param  startXY 起始点XY坐标
+   * @param  endXY 终止点XY坐标
+   * @returns 扫描点值集合
+   */
+  DDA (startXY: [number, number], endXY: [number, number]) : number[]
+  /**
+   * 直线扫描算法
+   * @param  startXY 起始点XY坐标
+   * @param  endXY 终止点XY坐标
+   * @param  withXYs 返回扫描的XY坐标
+   * @returns 扫描点坐标及值的集合
+   */
+  DDA (startXY: [number, number], endXY: [number, number], withXYs: true) : Array<[number, number, number]>
+  /**
+   * 多边形扫描算法
+   * @param points 多边形点集
+   */
+  scanLineFilling (points:  Array<[number, number]>) : number[]
+  /**
+   * 多边形扫描算法
+   * @param points 多边形点集
+   * @param withXYs 返回扫描的XY坐标
+   * @returns 扫描点坐标及值的集合
+   */
+  scanLineFilling (points:  Array<[number, number]>, withXYs: true) : Array<[number, number, number]>
 }
