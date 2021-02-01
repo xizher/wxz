@@ -142,6 +142,7 @@ export class Matrix {
     try {
       scanFill(points)
     } catch { /* 忽略小图形情况 */ }
+    return resultArr
 
     function scanFill (points) {
       const bottomsacn = buildSidesList(points)

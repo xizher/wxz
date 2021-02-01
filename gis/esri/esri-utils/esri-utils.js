@@ -1,4 +1,5 @@
 import { esri } from '../esri-modules/esri-modules'
+import { PixelMatrix } from './pixels-matrix/pixel-matrix'
 
 export class EsriUtils {
 
@@ -169,6 +170,14 @@ export class EsriUtils {
   static lonLatToXY ([longitude, latitude]) {
     const point = EsriUtils.createPoint({ longitude, latitude })
     return [point.x, point.y]
+  }
+
+  /**
+   * 创建像元矩阵对象
+   * @param { __esri.PixelData } pixelData pixelData对象
+   */
+  static createPixelMatrix (pixelData) {
+    return new PixelMatrix(pixelData)
   }
 
 }

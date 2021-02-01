@@ -1,4 +1,5 @@
 import { $Map, $View, WebMapStaticPlugin } from "../web-map/web-map";
+import { PixelMatrix } from "./pixels-matrix/pixel-matrix";
 
 export class EsriUtils implements WebMapStaticPlugin {
   static map : $Map
@@ -15,4 +16,5 @@ export class EsriUtils implements WebMapStaticPlugin {
   static longitudeToX (longitude : number) : number
   static latitudeToY (latitude : number) : number
   static lonLatToXY ([longitude, latitude]: [number, number]) : [number, number]
+  static createPixelMatrix (pixelData: __esri.PixelData) : PixelMatrix
 }
