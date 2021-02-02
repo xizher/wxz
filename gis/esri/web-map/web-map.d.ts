@@ -5,6 +5,7 @@ import { MapCursor } from "../map-cursor/map-cursor";
 import { MapElementDisplay } from "../map-element-display/map-element-display";
 import { EsriUtils } from '../esri-utils/esri-utils'
 import { esriExt } from '../esri-exts/esri-exts'
+import { esriHooks } from '../esri-hooks/esri-hooks'
 
 export declare interface $Map extends __esri.Map {
   $owner: WebMap
@@ -50,4 +51,5 @@ export declare class WebMap extends Listener<
   mapElementDisplay?: MapElementDisplay
   esriUtils?: typeof EsriUtils
   esriExt?: typeof esriExt
+  esriHooks?: typeof esriHooks
 }
