@@ -114,6 +114,7 @@ export class Matrix {
         y += yincre
       }
     }
+    return resultArr
   }
 
   /**
