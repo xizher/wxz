@@ -21,7 +21,7 @@ export class PixelMatrix extends Matrix {
   constructor (pixelData) {
     const { extent, pixelBlock } = pixelData
     const { pixels, width, height } = pixelBlock
-    super(pixels, height, width)
+    super(pixels[0], height, width)
 
     this.#extent = extent
   }
@@ -35,12 +35,12 @@ export class PixelMatrix extends Matrix {
    * @param {  __esri.Point} point 点对象
    * @returns { [number, number] } 行列号
    */
-  #getRowColFromGeoPoint (point) {
+  #getColRowFromGeoPoint (point) {
     const { xmin, ymin, xmax, ymax } = this.#extent
     const [dx, dy] = [xmax - xmin, ymax - ymin]
-    const col = Math.round((point.x - xmin) * (this.colCount - 0) / (dx) + 0)
-    const row = Math.round(((ymax - (point.y - ymin) - ymin) * (this.rowCount - 0)) / (dy) + 0)
-    return [row, col]
+    const x = Math.round((point.x - xmin) * (this.colCount - 0) / (dx) + 0)
+    const y = Math.round(((ymax - (point.y - ymin) - ymin) * (this.rowCount - 0)) / (dy) + 0)
+    return [x, y]
   }
 
   //#endregion
@@ -52,7 +52,7 @@ export class PixelMatrix extends Matrix {
    * @param {  __esri.Point} point 点对象
    */
   getValueByGeoPoint (point) {
-    const [row, col] = this.#getRowColFromGeoPoint(point)
+    const [col, row] = this.#getColRowFromGeoPoint(point)
     return this.getValue([row, col])
   }
 
@@ -62,8 +62,8 @@ export class PixelMatrix extends Matrix {
    * @param { __esri.Point } endPoint 线段终止点
    */
   getValueByGeoLine (startPoint, endPoint) {
-    const startXY = this.#getRowColFromGeoPoint(startPoint)
-    const endXY = this.#getRowColFromGeoPoint(endPoint)
+    const startXY = this.#getColRowFromGeoPoint(startPoint)
+    const endXY = this.#getColRowFromGeoPoint(endPoint)
     return this.DDA(startXY, endXY)
   }
 
@@ -77,7 +77,7 @@ export class PixelMatrix extends Matrix {
       const pts = []
       for (let j = 0; j < polygon.rings[i].length; j++) {
         const point = polygon.getPoint(i, j)
-        pts.push(this.#getRowColFromGeoPoint(point))
+        pts.push(this.#getColRowFromGeoPoint(point))
       }
       resultArr.push(...this.scanLineFilling(pts))
     }
