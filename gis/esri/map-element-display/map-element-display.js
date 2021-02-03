@@ -33,6 +33,30 @@ export class MapElementDisplay {
         color: [255, 0, 0],
         width: 1
       }
+    },
+    highlight: {
+      simpleMarker: {
+        color: [0, 255, 255, .8],
+        style: 'circle',
+        size: '12px',
+        outline: {
+          color: [0, 255, 255],
+          width: 1
+        }
+      },
+      simpleLine: {
+        color: [0, 255, 255, .8],
+        width: '2px',
+        style: 'solid'
+      },
+      simpleFill: {
+        color: [0, 255, 255, .4],
+        style: 'solid',
+        outline: {
+          color: [0, 255, 255],
+          width: 1
+        }
+      },
     }
   }
 
@@ -57,6 +81,12 @@ export class MapElementDisplay {
    * @type { __esri.GroupLayer }
    */
   #graphicsLayer = null
+
+  /**
+   * 高亮图元存储图层
+   * @type { __esri.GroupLayer }
+   */
+  #highlightLayer = null
 
   //#endregion
 
@@ -94,7 +124,9 @@ export class MapElementDisplay {
    */
   #init () {
     this.#graphicsLayer = new esri.layers.GraphicsLayer()
+    this.#highlightLayer = new esri.layers.GraphicsLayer()
     this.#map.add(this.#graphicsLayer)
+    this.#map.add(this.#highlightLayer)
   }
 
   //#endregion
@@ -131,7 +163,7 @@ export class MapElementDisplay {
     Array.isArray(graphics)
       ? this.#graphicsLayer.removeMany(graphics)
       : this.#graphicsLayer.remove(graphics)
-    return
+    return this
   }
 
   /**
@@ -143,6 +175,50 @@ export class MapElementDisplay {
     return this
       .clearGraphics()
       .addGraphics(graphics)
+  }
+
+  /**
+   * 添加图元（保存已有图元基础上）
+   * @param { __esri.Graphic | __esri.Graphic[] } graphics 图元
+   * @returns { MapElementDisplay } this
+   */
+  addHighlight (graphics) {
+    Array.isArray(graphics)
+      ? this.#highlightLayer.addMany(graphics)
+      : this.#highlightLayer.add(graphics)
+    return this
+  }
+
+  /**
+   * 清理所有图元
+   * @returns { MapElementDisplay } this
+   */
+  clearHighlight () {
+    this.#highlightLayer.removeAll()
+    return this
+  }
+
+  /**
+   * 清理指定图元
+   * @param { __esri.Graphic | __esri.Graphic[] } graphics 图元
+   * @returns { MapElementDisplay } this
+   */
+  removeHighlight (graphics) {
+    Array.isArray(graphics)
+      ? this.#highlightLayer.removeMany(graphics)
+      : this.#highlightLayer.remove(graphics)
+    return this
+  }
+
+  /**
+   * 设置图元（清空已有图元基础上）
+   * @param { __esri.Graphic | __esri.Graphic[] } graphics 图元
+   * @returns { MapElementDisplay } this
+   */
+  setHighlight (graphics) {
+    return this
+      .clearHighlight()
+      .addHighlight(graphics)
   }
 
   /**
@@ -196,6 +272,7 @@ export class MapElementDisplay {
   clear () {
     return this
       .clearGraphics()
+      .clearHighlight()
       .clearTempGraphics()
   }
 
@@ -213,7 +290,31 @@ export class MapElementDisplay {
     } else if (type === 'polyline') {
       symbol = new esri.symbols.SimpleLineSymbol(MapElementDisplay.defaultSymbols.simpleLine)
     } else if (type === 'polygon' || type === 'extent') {
-      symbol = new esri.symbols.SimpleFillSymbol(MapElementDisplay.defaultSymbols.simpleFill)
+      symbol = new esri.symbols.SimpleFillSymbol(MapElementDisplay.defaultSymbols.simpleFull)
+    }
+    BaseUtils.jExtent(true, symbol, symbolOptions)
+    if (Array.isArray(geomeytries)) {
+      return geomeytries.map(geometry => new esri.Graphic({ geometry, symbol }))
+    } else {
+      return new esri.Graphic({ geometry: geomeytries, symbol })
+    }
+  }
+
+  /**
+   * 解析高亮图元
+   * @param { __esri.Geometry | __esri.Geometry[] } geometrys 图元
+   * @param { __esri.Symbol } symbolOptions
+   * @returns { __esri.Graphic | __esri.Graphic[] }
+   */
+  parseHighlightGraphics (geomeytries, symbolOptions = {}) {
+    let symbol = null
+    let type = Array.isArray(geomeytries) ? geomeytries[0].type : geomeytries.type
+    if (type === 'point') {
+      symbol = new esri.symbols.SimpleMarkerSymbol(MapElementDisplay.defaultSymbols.highlight.simpleMarker)
+    } else if (type === 'polyline') {
+      symbol = new esri.symbols.SimpleLineSymbol(MapElementDisplay.defaultSymbols.highlight.simpleLine)
+    } else if (type === 'polygon' || type === 'extent') {
+      symbol = new esri.symbols.SimpleFillSymbol(MapElementDisplay.defaultSymbols.highlight.simpleFull)
     }
     BaseUtils.jExtent(true, symbol, symbolOptions)
     if (Array.isArray(geomeytries)) {
