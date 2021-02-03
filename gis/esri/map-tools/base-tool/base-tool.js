@@ -148,7 +148,7 @@ export class BaseTool extends Listener {
     }
     this.#actived = true
     this.fire('tool-actived')
-    if (this.once) {
+    if (this.#once) {
       this.deactive()
     }
     return this
