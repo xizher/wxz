@@ -6,6 +6,7 @@ import { MapElementDisplay } from "../map-element-display/map-element-display";
 import { EsriUtils } from '../esri-utils/esri-utils'
 import { esriExt } from '../esri-exts/esri-exts'
 import { esriHooks } from '../esri-hooks/esri-hooks'
+import { MapTools } from "../map-tools/map-tools";
 
 export declare interface $Map extends __esri.Map {
   $owner: WebMap
@@ -48,6 +49,7 @@ export declare class WebMap extends Listener<
   basemap?: Basemap
   layerOperation?: LayerOperation
   mapCursor?: MapCursor
+  mapTools?: MapTools
   mapElementDisplay?: MapElementDisplay
   esriUtils?: typeof EsriUtils
   esriExt?: typeof esriExt
