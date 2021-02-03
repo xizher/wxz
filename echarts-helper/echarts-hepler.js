@@ -12,6 +12,11 @@ export class EChartsHelper {
    */
   #echarts = null
 
+  /**
+   * @type { echarts.EChartOption }
+   */
+  #options = {}
+
   //#endregion
 
   //#region getter
@@ -24,8 +29,14 @@ export class EChartsHelper {
 
   //#region 构造函数
 
-  constructor (divId) {
+  /**
+   *
+   * @param { string } divId
+   * @param { echarts.EChartOption } options
+   */
+  constructor (divId, options = {}) {
     this.#divId = divId
+    this.#options = options
   }
 
   //#endregion
@@ -35,7 +46,7 @@ export class EChartsHelper {
   mount () {
     const elem = document.getElementById(this.#divId)
     this.#echarts = echarts.init(elem)
-    return this
+    return this.setOptions(this.#options)
   }
 
   /**
