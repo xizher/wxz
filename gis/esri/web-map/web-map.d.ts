@@ -7,6 +7,7 @@ import { EsriUtils } from '../esri-utils/esri-utils'
 import { esriExt } from '../esri-exts/esri-exts'
 import { esriHooks } from '../esri-hooks/esri-hooks'
 import { MapTools } from "../map-tools/map-tools";
+import { Highlight } from "../highlight/highlight";
 
 export declare interface $Map extends __esri.Map {
   $owner: WebMap
@@ -54,4 +55,5 @@ export declare class WebMap extends Listener<
   esriUtils?: typeof EsriUtils
   esriExt?: typeof esriExt
   esriHooks?: typeof esriHooks
+  highlight?: Highlight
 }
