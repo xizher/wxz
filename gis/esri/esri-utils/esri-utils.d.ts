@@ -17,4 +17,5 @@ export class EsriUtils implements WebMapStaticPlugin {
   static latitudeToY (latitude : number) : number
   static lonLatToXY ([longitude, latitude]: [number, number]) : [number, number]
   static createPixelMatrix (pixelData: __esri.PixelData) : PixelMatrix
+  static synchronizeViews (views: __esri.MapView[] | __esri.SceneView) : { remove() : void }
 }

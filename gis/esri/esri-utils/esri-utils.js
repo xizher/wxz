@@ -180,4 +180,86 @@ export class EsriUtils {
     return new PixelMatrix(pixelData)
   }
 
+  /**
+   * 视图同步
+   * @param { __esri.MapView | __esri.SceneView } views 视图对象
+   * @returns { { remove() : void } }
+   */
+  static synchronizeViews (views) {
+    let handles = views.map((view, idx, views) => {
+      let others = views.concat()
+      others.splice(idx, 1)
+      return synchronizeView(view, others)
+    })
+
+    return {
+      remove: function () {
+        handles.forEach(h => h.remove())
+        handles = null
+      }
+    }
+
+    /**
+     * @param { __esri.MapView | __esri.SceneView } view 视图对象
+     * @param { __esri.MapView[] | __esri.SceneView[] } others 视图对象数组
+     */
+    function synchronizeView (view, others) {
+      others = Array.isArray(others) ? others : [others]
+      let viewpointWatchHandler,
+        viewStationaryHandler,
+        otherInteractHandlers,
+        scheduleId
+      const clear = () => {
+        if (otherInteractHandlers) {
+          otherInteractHandlers.forEach(handler => handler.remove())
+        }
+        viewpointWatchHandler && viewpointWatchHandler.remove()
+        viewStationaryHandler && viewStationaryHandler.remove()
+        scheduleId && clearTimeout(scheduleId)
+        otherInteractHandlers = viewpointWatchHandler = viewStationaryHandler = scheduleId = null
+      }
+
+      const interactWatcher = view.watch('interacting,animation', _ => {
+        if (!_) {
+          return
+        }
+        if (viewpointWatchHandler || scheduleId) {
+          return
+        }
+
+        scheduleId = setTimeout(() => {
+          scheduleId = null
+          viewpointWatchHandler = view.watch('viewpoint', val => {
+            others.forEach(otherView => otherView.viewpoint = val)
+          })
+        }, 0)
+
+        otherInteractHandlers = others.map(otherView => {
+          return esri.core.watchUtils.watch(
+            otherView,
+            'interacting,animation',
+            function (value) {
+              if (value) {
+                clear()
+              }
+            }
+          )
+        })
+
+        viewStationaryHandler = esri.core.watchUtils.whenTrue(
+          view,
+          'stationary',
+          clear
+        )
+      })
+
+      return {
+        remove () {
+          clear()
+          interactWatcher.remove()
+        }
+      }
+    }
+  }
+
 }
