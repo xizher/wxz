@@ -16,6 +16,7 @@ export declare interface IDefaultSumbols {
 export declare class MapElementDisplay implements IWebMapPlugin {
   PLUGIN_NAME: string
   REGISTER_PLUGIN (webMap: WebMap): void
+  get graphicsLayer () : __esri.GraphicsLayer
   addGraphics (graphics: __esri.Graphic | __esri.Graphic[]) : this
   clearGraphics () : this
   removeGraphics (graphics: __esri.Graphic | __esri.Graphic[]) : this
@@ -29,6 +30,6 @@ export declare class MapElementDisplay implements IWebMapPlugin {
   removeTempGraphics (graphics: __esri.Graphic | __esri.Graphic[]) : this
   setTempGraphics (graphics: __esri.Graphic | __esri.Graphic[]) : this
   clear () : this
-  parseGraphics (geometries: __esri.Geometry | __esri.Geometry[]) : __esri.Graphic | __esri.Graphic[]
+  parseGraphics (geometries: __esri.Geometry | __esri.Geometry[], symbol: __esri.Symbol) : __esri.Graphic | __esri.Graphic[]
   parseHighlightGraphics (geometries: __esri.Geometry | __esri.Geometry[]) : __esri.Graphic | __esri.Graphic[]
 }

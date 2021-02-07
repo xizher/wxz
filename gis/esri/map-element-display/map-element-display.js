@@ -90,6 +90,14 @@ export class MapElementDisplay {
 
   //#endregion
 
+  //#region getter
+
+  get graphicsLayer () {
+    return this.#graphicsLayer
+  }
+
+  //#endregion
+
   //#region 构造函数
 
   constructor () {
