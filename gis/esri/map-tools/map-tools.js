@@ -142,7 +142,7 @@ export class MapTools {
    * @returns { MapTools } this
    */
   deleteTool (toolKey) {
-    this.#toolPool[toolKey] = undefined
+    delete this.#toolPool[toolKey]
     return this
   }
 
