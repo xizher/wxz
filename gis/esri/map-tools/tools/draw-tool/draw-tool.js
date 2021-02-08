@@ -479,8 +479,8 @@ export class DrawTool extends BaseTool {
   }
 
   onToolClear (event) {
+    this.#drawer.clear()
     if (super.onToolClear(event)) {
-      this.#drawer.clear()
       return true
     } else {
       return false
