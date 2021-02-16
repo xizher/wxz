@@ -33,19 +33,28 @@ export class Basemap extends WebMapPlugin {
    * 配置项
    * @type { import('./basemap').IBasemapOptions }
    */
-  #options = {}
+  #options = {
+    key: '彩色地图',
+    visible: true
+  }
 
   /**
    * 当前选中的底图项Key值
    * @type { string }
    */
-  #selectedKey = '彩色地图'
+  #selectedKey = ''
 
   /**
    * 底图图层容器组
    * @type { LayerGroup }
    */
   #layerGroup = null
+
+  /**
+   * 底图可见性
+   * @type { boolean }
+   */
+  #visible = true
 
   //#endregion
 
@@ -59,6 +68,25 @@ export class Basemap extends WebMapPlugin {
     return this.#selectedKey
   }
 
+  /**
+   * 底图可见性
+   */
+  get visible () {
+    return this.#visible
+  }
+
+  //#endregion
+
+  //#region setter
+
+  /**
+   * 底图可见性
+   */
+  set visible (val) {
+    this.#visible = val
+    this.#layerGroup.setVisible(val)
+  }
+
   //#endregion
 
   //#region 构造函数
@@ -70,6 +98,8 @@ export class Basemap extends WebMapPlugin {
   constructor (options = {}) {
     super('basemap')
     BaseUtils.jExtent(true, this.#options, options)
+    this.#visible = this.#options.visible
+    this.#selectedKey = this.#options.key
   }
 
   //#endregion
@@ -80,10 +110,12 @@ export class Basemap extends WebMapPlugin {
    * 初始化
    */
   #init () {
-    this.#layerGroup = new LayerGroup()
+    this.#layerGroup = new LayerGroup({
+      visible: this.#visible
+    })
     this.map.getLayers().insertAt(0, this.#layerGroup)
 
-    const { key } = this.#options
+    const key = this.selectedKey
     Object.entries(this.#defaultBasemapPool).forEach(
       ([key, url]) => this.#basemapPool[key.toLowerCase()] = new Collection([createXYZLayer(url)])
     )

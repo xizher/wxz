@@ -16,6 +16,15 @@ export class Basemap extends WebMapPlugin {
    */
   get selectedKey () : string
   /**
+   * 底图可见性
+   */
+  get visible () : boolean
+  /**
+   * 底图可见性
+   * @param value 可见性
+   */
+  set visible (value)
+  /**
    * 设置底图项
    * @param key 底图项key值
    */
@@ -38,4 +47,5 @@ export interface IBasemapPool {
 
 export interface IBasemapOptions {
   key: string
+  visible: boolean
 }
