@@ -1,9 +1,10 @@
 import XYZ from 'ol/source/XYZ'
 import TileLayer from 'ol/layer/Tile'
 import { BaseUtils } from '../../../js-utils'
+import OSM from 'ol/source/OSM'
 
 /**
- *
+ * 创建XZY图层
  * @param { string } xzyUrl XZY地址
  * @param { {
  *  xyzOptions: import('ol/source/XYZ').Options
@@ -16,6 +17,19 @@ export function createXYZLayer (xzyUrl, options = {}) {
   BaseUtils.jExtent(true, _options, options.xyzOptions ?? {})
   const source = new XYZ(_options)
   // const source = new OSM()
+  const layer = new TileLayer({ source, ...options.layerOptions ?? {} })
+  return layer
+}
+
+/**
+ * 创建OSM图层
+ * @param { {
+ *  osmOptions: import('ol/source/OSM').Options
+ *  layerOptions: import('ol/layer/Layer').Options
+ * } } options 配置项
+ */
+export function createOSMLayer (options = {}) {
+  const source = new OSM(options.osmOptions ?? {})
   const layer = new TileLayer({ source, ...options.layerOptions ?? {} })
   return layer
 }
