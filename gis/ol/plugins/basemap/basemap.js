@@ -3,6 +3,7 @@ import { BaseUtils } from '../../../../js-utils'
 import { createXYZLayer } from '../../utilities/layer.util'
 import LayerGroup from 'ol/layer/Group'
 import Collection from 'ol/Collection'
+import BaseLayer from 'ol/layer/Base' // eslint-disable-line
 
 /**
  * 底图控制插件类
@@ -80,11 +81,11 @@ export class Basemap extends WebMapPlugin {
    */
   #init () {
     this.#layerGroup = new LayerGroup()
-    this.map.addLayer(this.#layerGroup)
+    this.map.getLayers().insertAt(0, this.#layerGroup)
 
     const { key } = this.#options
     Object.entries(this.#defaultBasemapPool).forEach(
-      ([key, url]) => this.#basemapPool[key] = createXYZLayer(url)
+      ([key, url]) => this.#basemapPool[key] = new Collection([createXYZLayer(url)])
     )
     this.selectBasemap(key)
   }
@@ -112,10 +113,26 @@ export class Basemap extends WebMapPlugin {
   selectBasemap (key) {
     const pool = this.#basemapPool
     if (key in pool) {
-      this.#layerGroup.setLayers(new Collection([pool[key]]))
+      this.#layerGroup.setLayers(pool[key])
       this.#selectedKey = key
     }
     return this
+  }
+
+  /**
+   * 创建自定义底图项
+   * @param { string } key 底图项Key值
+   * @param { BaseLayer } layers 图层
+   * @example
+   *  const url = 'http://192.168.65.130:6080/arcgis/rest/services/GLC30/WorldLand/MapServer/tile/{z}/{y}/{x}'
+   *  const layer = createXYZLayer(url)
+   *  basemap.createCustomBasemap(layer).select()
+   */
+  createCustomBasemap (key, layers) {
+    const lyrs = Array.isArray(layers) ? layers : [layers]
+    this.#basemapPool[key] = new Collection(lyrs)
+    const select = () => this.selectBasemap(key)
+    return { select }
   }
 
   //#endregion

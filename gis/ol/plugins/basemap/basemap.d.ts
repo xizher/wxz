@@ -1,3 +1,4 @@
+import { Collection } from "ol";
 import BaseLayer from "ol/layer/Base";
 import { WebMapPlugin } from "../../web-map/web-map";
 
@@ -19,6 +20,12 @@ export class Basemap extends WebMapPlugin {
    * @param key 底图项key值
    */
   selectBasemap (key: string) : this
+  /**
+   * 创建自定义底图项
+   * @param key 底图项Key值
+   * @param layers 图层
+   */
+  createCustomBasemap (key: string, layers: BaseLayer[] | BaseLayer) : { select () : this }
 }
 
 export interface IDefaultBasemapPool {
@@ -26,7 +33,7 @@ export interface IDefaultBasemapPool {
 }
 
 export interface IBasemapPool {
-  [name: string] : BaseLayer
+  [name: string] : Collection<BaseLayer>
 }
 
 export interface IBasemapOptions {
