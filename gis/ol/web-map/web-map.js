@@ -35,7 +35,10 @@ export class WebMap {
   #options = {
     viewOptions: {
       center: [0, 0],
-      zoom: 1
+      zoom: 1,
+    },
+    mapOptions: {
+      controls: [],
     }
   }
 
@@ -96,7 +99,7 @@ export class WebMap {
   #init () {
     const opt = this.#options
     const view = new View(opt.viewOptions)
-    const map = new OlMap({ view })
+    const map = new OlMap({ view, ...opt.mapOptions })
     // map.on('change:target', e => this.#targetDiv = e.)
     this.#view = view
     this.#view.$owner = this

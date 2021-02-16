@@ -1,4 +1,5 @@
 import OlMap from 'ol/Map'
+import { MapOptions } from 'ol/PluggableMap'
 import View, { ViewOptions } from 'ol/View'
 import { Listener } from '../../../listener'
 import { Basemap } from '../plugins'
@@ -50,6 +51,7 @@ export declare interface IView extends View {
 
 export declare interface IWebMapOptions {
   viewOptions: ViewOptions
+  mapOptions: MapOptions
 }
 
 export declare class WebMapPlugin<T> extends Listener<T> {
