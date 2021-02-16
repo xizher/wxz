@@ -1,11 +1,16 @@
 import OlMap from 'ol/Map'
 import View, { ViewOptions } from 'ol/View'
 import { Listener } from '../../../listener'
+import { Basemap } from '../plugins'
+
+export declare interface IPlugins {
+  basemap:? Basemap
+}
 
 /**
  * WebMap应用程式类
  */
-export declare class WebMap {
+export declare class WebMap implements IPlugins {
   /**
    * 构造WebMap应用程式对象
    * @param targetDiv 目标容器
