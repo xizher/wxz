@@ -6,6 +6,8 @@ export declare interface IListenerCallback<T> {
 
 export declare interface IListenerListenType {
   [key: string]: any
+  name: string
+  data: any
 }
 
 /**
