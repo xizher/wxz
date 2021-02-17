@@ -136,7 +136,7 @@ export class Basemap extends WebMapPlugin {
   /**
    * 装载插件
    * @param { WebMap } webMap WebMap应用程式
-   * @returns { WebMap }
+   * @returns { this }
    */
   installPlugin (webMap) {
     super.installPlugin(webMap)
