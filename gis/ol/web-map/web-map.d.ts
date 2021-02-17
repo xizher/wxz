@@ -4,14 +4,14 @@ import View, { ViewOptions } from 'ol/View'
 import { Listener } from '../../../listener'
 import { Basemap } from '../plugins'
 
-export declare interface IPlugins {
-  basemap:? Basemap
+class Plugins {
+  basemap?: Basemap
 }
 
 /**
  * WebMap应用程式类
  */
-export declare class WebMap implements IPlugins {
+export declare class WebMap extends Plugins {
   /**
    * 构造WebMap应用程式对象
    * @param targetDiv 目标容器

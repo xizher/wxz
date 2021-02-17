@@ -5,7 +5,11 @@ import { WebMapPlugin } from "../../web-map/web-map";
 /**
  * 底图控制插件类
  */
-export class Basemap extends WebMapPlugin {
+export class Basemap extends WebMapPlugin<
+  { name: 'change:key', data: { key: string } } |
+  { name: 'change:visible', data: { visible: boolean } } | 
+  { name: 'change:list', data: { list: string[] } }
+> {
   /**
    * 构造底图控制插件对象
    * @param options 配置项
@@ -19,6 +23,10 @@ export class Basemap extends WebMapPlugin {
    * 底图可见性
    */
   get visible () : boolean
+  /**
+   * 底图项集
+   */
+  get basemapList () : string[]
   /**
    * 底图可见性
    * @param value 可见性

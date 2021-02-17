@@ -75,6 +75,13 @@ export class Basemap extends WebMapPlugin {
     return this.#visible
   }
 
+  /**
+   * 底图项集
+   */
+  get basemapList () {
+    return Object.keys(this.#basemapPool)
+  }
+
   //#endregion
 
   //#region setter
@@ -84,6 +91,7 @@ export class Basemap extends WebMapPlugin {
    */
   set visible (val) {
     this.#visible = val
+    this.fire('change:visible', { visible: val })
     this.#layerGroup.setVisible(val)
   }
 
@@ -120,7 +128,7 @@ export class Basemap extends WebMapPlugin {
       ([key, url]) => this.#basemapPool[key.toLowerCase()] = new Collection([createXYZLayer(url)])
     )
     this.selectBasemap(key)
-
+    window.osmLayer = createOSMLayer()
     this.createCustomBasemap('osm', createOSMLayer())
   }
 
@@ -150,6 +158,7 @@ export class Basemap extends WebMapPlugin {
       this.#layerGroup.setLayers(pool[key.toLowerCase()])
       this.#selectedKey = key
     }
+    this.fire('change:key', { key })
     return this
   }
 
@@ -165,6 +174,7 @@ export class Basemap extends WebMapPlugin {
   createCustomBasemap (key, layers) {
     const lyrs = Array.isArray(layers) ? layers : [layers]
     this.#basemapPool[key.toLowerCase()] = new Collection(lyrs)
+    this.fire('change:list', { list: this.basemapList })
     const select = () => this.selectBasemap(key)
     return { select }
   }
