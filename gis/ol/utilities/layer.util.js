@@ -2,7 +2,9 @@ import XYZ from 'ol/source/XYZ'
 import TileLayer from 'ol/layer/Tile'
 import { BaseUtils } from '../../../js-utils'
 import OSM from 'ol/source/OSM'
+import VectorSource from 'ol/source/Vector'
 import LayerGroup from 'ol/layer/Group'
+import VectorLayer from 'ol/layer/Vector'
 
 /**
  * 创建XZY图层
@@ -41,5 +43,17 @@ export function createOSMLayer (options = {}) {
  */
 export function createLayerGroup (options = {}) {
   const layer = new LayerGroup(options)
+  return layer
+}
+
+/**
+ * 创建矢量图层
+ * @param { import('ol/layer/Layer').Options } options 配置项
+ */
+export function createVectorLayer (options = {}) {
+  const layer = new VectorLayer({
+    ...options,
+    source: new VectorSource()
+  })
   return layer
 }

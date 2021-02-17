@@ -36,6 +36,7 @@ export class WebMap {
     viewOptions: {
       center: [0, 0],
       zoom: 1,
+      projection: 'EPSG:4326' // 4326 3857
     },
     mapOptions: {
       controls: [],
