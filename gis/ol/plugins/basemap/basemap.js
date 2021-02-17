@@ -1,7 +1,7 @@
 import { WebMapPlugin } from '../../web-map/web-map'
 import { BaseUtils } from '../../../../js-utils'
 import { createLayerGroup, createOSMLayer, createXYZLayer } from '../../utilities/layer.util'
-import Collection from 'ol/Collection'
+import { createCollection } from '../../utilities/base.util'
 import BaseLayer from 'ol/layer/Base' // eslint-disable-line
 
 /**
@@ -122,7 +122,7 @@ export class Basemap extends WebMapPlugin {
 
     const key = this.selectedKey
     Object.entries(this.#defaultBasemapPool).forEach(
-      ([key, url]) => this.#basemapPool[key.toLowerCase()] = new Collection([createXYZLayer(url)])
+      ([key, url]) => this.#basemapPool[key.toLowerCase()] = createCollection([createXYZLayer(url)])
     )
     this.selectBasemap(key)
     window.osmLayer = createOSMLayer()
@@ -170,7 +170,7 @@ export class Basemap extends WebMapPlugin {
    */
   createCustomBasemap (key, layers) {
     const lyrs = Array.isArray(layers) ? layers : [layers]
-    this.#basemapPool[key.toLowerCase()] = new Collection(lyrs)
+    this.#basemapPool[key.toLowerCase()] = createCollection(lyrs)
     this.fire('change:list', { list: this.basemapList })
     const select = () => this.selectBasemap(key)
     return { select }
