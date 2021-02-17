@@ -2,6 +2,7 @@ import XYZ from 'ol/source/XYZ'
 import TileLayer from 'ol/layer/Tile'
 import { BaseUtils } from '../../../js-utils'
 import OSM from 'ol/source/OSM'
+import LayerGroup from 'ol/layer/Group'
 
 /**
  * 创建XZY图层
@@ -31,5 +32,14 @@ export function createXYZLayer (xzyUrl, options = {}) {
 export function createOSMLayer (options = {}) {
   const source = new OSM(options.osmOptions ?? {})
   const layer = new TileLayer({ source, ...options.layerOptions ?? {} })
+  return layer
+}
+
+/**
+ * 创建图层组
+ * @param { import('ol/layer/Group').Options } options 配置项
+ */
+export function createLayerGroup (options = {}) {
+  const layer = new LayerGroup(options)
   return layer
 }

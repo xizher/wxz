@@ -1,7 +1,6 @@
 import { WebMapPlugin } from '../../web-map/web-map'
 import { BaseUtils } from '../../../../js-utils'
-import { createOSMLayer, createXYZLayer } from '../../utilities/layer.util'
-import LayerGroup from 'ol/layer/Group'
+import { createLayerGroup, createOSMLayer, createXYZLayer } from '../../utilities/layer.util'
 import Collection from 'ol/Collection'
 import BaseLayer from 'ol/layer/Base' // eslint-disable-line
 
@@ -118,9 +117,7 @@ export class Basemap extends WebMapPlugin {
    * 初始化
    */
   #init () {
-    this.#layerGroup = new LayerGroup({
-      visible: this.#visible
-    })
+    this.#layerGroup = createLayerGroup({ visible: this.#visible })
     this.map.getLayers().insertAt(0, this.#layerGroup)
 
     const key = this.selectedKey
