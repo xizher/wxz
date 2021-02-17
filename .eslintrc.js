@@ -93,7 +93,7 @@ module.exports = {
 
     // 缩进 2
     'indent':
-      ['error', 2],
+      ['error', 2, { 'SwitchCase': 1 }],
 
     // 关键字之前至少有一个空格，关键字之后至少有一个空格
     'keyword-spacing':
