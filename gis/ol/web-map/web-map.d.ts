@@ -31,6 +31,10 @@ export declare class WebMap extends Plugins {
    */
   get view () : IView
   /**
+   * 配置项
+   */
+  get options () : IWebMapOptions
+  /**
    * 装载应用程式
    */
   mount () : this
