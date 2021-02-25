@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { Feature } from 'ol'
-import Geometry from 'ol/geom/geometry'
+import Feature from 'ol/Feature'
+import Geometry from 'ol/geom/Geometry'
 /* eslint-enable */
 import { BaseUtils } from '../../../../../js-utils'
 
@@ -113,6 +113,36 @@ export class Drawer {
 
   //#endregion
 
+  //#region 私有方法
+
+  /**
+   * 匹配样式
+   * @param { Geometry | Geometry[] } geometries
+   * @param { import('../..').IGeometryStyleOptinos } styleOptions
+   */
+  #matchStyle (geometries, styleOptions) {
+    const type = Array.isArray(geometries)
+      ? geometries[0].getType()
+      : geometries.getType()
+    let style = {}
+    switch (type) {
+      case 'Point':
+        style = BaseUtils.deepCopy(styleOptions.pointStyle)
+        break
+      case 'LineString':
+        style = BaseUtils.deepCopy(styleOptions.polylineStyle)
+        break
+      case 'Polygon':
+        style = BaseUtils.deepCopy(styleOptions.polygonStyle)
+        break
+      default:
+        break
+    }
+    return style
+  }
+
+  //#endregion
+
   //#region 公有方法
 
   /**
@@ -142,9 +172,10 @@ export class Drawer {
    * @returns { this }
    */
   add (geometries, styleOptions = {}, returnFeature = false) {
+    this.clearTemp()
     const _styleOptions = BaseUtils.deepCopy(this.#drawedStyle)
     BaseUtils.jExtent(true, _styleOptions, styleOptions)
-    const feature = this.#mapElementDisplay.parseGraoghics(geometries, _styleOptions)
+    const feature = this.#mapElementDisplay.parseGraphics(geometries, this.#matchStyle(geometries, this.#drawedStyle))
     this.#mapElementDisplay.add(feature)
     this.#graphicPool.push(feature)
     if (returnFeature) {
@@ -158,7 +189,9 @@ export class Drawer {
    * @returns { this }
    */
   clear () {
-    this.#mapElementDisplay.remove(this.#graphicPool)
+    this.#mapElementDisplay
+      .remove(this.#graphicPool)
+      .clearTemp()
     return this
   }
 
@@ -169,9 +202,6 @@ export class Drawer {
    */
   remove (features) {
     this.#mapElementDisplay.remove(features)
-    if (this.#tempGraphic) {
-      this.#mapElementDisplay.remove(this.#tempGraphic)
-    }
     return this
   }
 
@@ -193,13 +223,26 @@ export class Drawer {
    * @param { import('../map-element-display').IGeometryStyleOptinos } styleOptions 样式配置项
    * @returns { this }
    */
-  setTemp (geometries) {
-    if (this.#tempGraphic) {
-      this.#mapElementDisplay.remove(this.#tempGraphic)
-    }
-    const feature = this.#mapElementDisplay.parseGraoghics(geometries, this.#drawingStyle)
+  setTemp (geometries, returnFeature = false) {
+    this.clearTemp()
+    const feature = this.#mapElementDisplay.parseGraphics(geometries, this.#matchStyle(geometries, this.#drawingStyle))
     this.#mapElementDisplay.add(feature)
     this.#tempGraphic = feature
+    if (returnFeature) {
+      return feature
+    }
+    return this
+  }
+
+  /**
+   * 清理过程图形
+   * @returns { this }
+   */
+  clearTemp () {
+    if (this.#tempGraphic) {
+      this.#mapElementDisplay.remove(this.#tempGraphic)
+      this.#tempGraphic = null
+    }
     return this
   }
 

@@ -1,5 +1,6 @@
 import { WebMap, WebMapPlugin } from '../../web-map/web-map' // eslint-disable-line
 import { BaseTool } from './base-tool/base-tool'
+import { DrawTool } from './tools/draw/draw'
 import { ZoomInTool, ZoomOutTool } from './tools/zoom/zoom'
 
 /**
@@ -32,6 +33,9 @@ export class MapTools extends WebMapPlugin {
       'default': new BaseTool(this.map, this.view),
       'zoom-in': new ZoomInTool(this.map, this.view),
       'zoom-out': new ZoomOutTool(this.map, this.view),
+      'draw-point': new DrawTool(this.map, this.view, 'point'),
+      'draw-line': new DrawTool(this.map, this.view, 'line'),
+      'draw-line-faster': new DrawTool(this.map, this.view, 'line-faster'),
     }
   }
 

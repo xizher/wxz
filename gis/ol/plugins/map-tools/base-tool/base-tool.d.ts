@@ -4,7 +4,7 @@ import { IMap, IView } from "../../../web-map/web-map";
 /**
  * 基础工具类
  */
-export declare class BaseTool extends Listener {
+export declare class BaseTool<T> extends Listener<T> {
   /**
    * 构造基础工具对象
    * @param map 地图对象

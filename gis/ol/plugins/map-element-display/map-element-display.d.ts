@@ -75,13 +75,13 @@ export declare class MapElementDisplay extends WebMapPlugin {
    * @param geometries 几何图形
    * @param styleOptions 样式配置项
    */
-  parseGraoghics (geometries: Geometry | Geometry[], styleOptions?: IPointStyleOptions | IPolylineStyleOptions | IPolygonStyleOptions) : Feature | Feature[]
+  parseGraphics (geometries: Geometry | Geometry[], styleOptions?: IPointStyleOptions | IPolylineStyleOptions | IPolygonStyleOptions) : Feature | Feature[]
   /**
    * 解析高亮图元
    * @param geometries 几何图形
    * @param styleOptions 样式配置项
    */
-  parseHighlightGraoghics (geometries: Geometry | Geometry[], styleOptions?: IPointStyleOptions | IPolylineStyleOptions | IPolygonStyleOptions) : Feature | Feature[]
+  parseHighlightGraphics (geometries: Geometry | Geometry[], styleOptions?: IPointStyleOptions | IPolylineStyleOptions | IPolygonStyleOptions) : Feature | Feature[]
 }
 
 export declare interface ICircleStyle {
