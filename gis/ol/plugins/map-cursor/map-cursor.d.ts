@@ -4,7 +4,9 @@ export declare type EMapCursorType = 'default' |
   'pan' |
   'panning' |
   'wait' |
-  'draw'
+  'draw' |
+  'zoomin' |
+  'zoomout'
 
 export declare class MapCursor extends WebMapPlugin {
   setMapCursor (type: EMapCursorType) : this
