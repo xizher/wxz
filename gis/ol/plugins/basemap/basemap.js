@@ -12,6 +12,32 @@ export class Basemap extends WebMapPlugin {
   //#region 私有属性
 
   /**
+   * 天地图秘钥
+   * @type { String }
+   */
+  #tianDiTuKey = 'd524142425d379adcf285daba823e28a'
+
+  // TODO: 未兼容投影（当前仅球面墨卡托投影，经纬度投影无法兼容）
+  // TODO：注记切片无效果
+  /**
+   * 天地图地址集合
+   */
+  #tianDiTuUrls = {
+    '影像底图': `http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${this.#tianDiTuKey}`,
+    '影像注记': `http://t0.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${this.#tianDiTuKey}`,
+    '矢量底图': `http://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${this.#tianDiTuKey}`,
+    '矢量注记': `http://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${this.#tianDiTuKey}`,
+    '地形底图': `http://t0.tianditu.gov.cn/ter_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ter&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${this.#tianDiTuKey}`,
+    '地形注记': `http://t0.tianditu.gov.cn/cta_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cta&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${this.#tianDiTuKey}`,
+  }
+
+  // TODO: 切片布局异常
+  /**
+   * 百度地图地址
+   */
+  #baiDuDiTuUrl = `http://online0.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl`
+
+  /**
    * 默认底图项池
    * @type { import('./basemap').IDefaultBasemapPool }
    */
@@ -125,8 +151,35 @@ export class Basemap extends WebMapPlugin {
       ([key, url]) => this.#basemapPool[key.toLowerCase()] = createCollection([createXYZLayer(url)])
     )
     this.selectBasemap(key)
-    window.osmLayer = createOSMLayer()
     this.createCustomBasemap('osm', createOSMLayer())
+    this.#createTianDiTu()
+      .#createBaiDuDiTu()
+  }
+
+  /**
+   * 创建天地图底图项集合
+   * @returns { this }
+   */
+  #createTianDiTu () {
+    const createTianDiTuItem = name => {
+      this.createCustomBasemap(`天地图${name}`, createXYZLayer(this.#tianDiTuUrls[`${name}底图`]))
+      this.createCustomBasemap(`天地图${name}含注记`, [
+        createXYZLayer(this.#tianDiTuUrls[`${name}底图`]),
+        createXYZLayer(this.#tianDiTuUrls[`${name}注记`]),
+      ])
+      return createTianDiTuItem
+    }
+    createTianDiTuItem('影像')('矢量')('地形')
+    return this
+  }
+
+  /**
+   * 创建百度地图底图项
+   * @returns { this }
+   */
+  #createBaiDuDiTu () {
+    this.createCustomBasemap('百度地图', createXYZLayer(this.#baiDuDiTuUrl))
+    return this
   }
 
   //#endregion
