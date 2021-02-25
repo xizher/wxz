@@ -452,9 +452,16 @@ export class DrawTool extends BaseTool {
   #drawer = null
 
   /**
+   * 绘制类型
    * @type { import('./draw').EDrawType }
    */
   #drawType = null
+
+  /**
+   * 鼠标样式
+   * @type { import('../../../map-cursor/map-cursor').EMapCursorType }
+   */
+  #cursorType = null
 
   //#endregion
 
@@ -477,12 +484,14 @@ export class DrawTool extends BaseTool {
    * @param { import('../../../../web-map/web-map').IMap } map 地图对象
    * @param { import('../../../../web-map/web-map').IView } view 视图对象
    * @param { import('./draw').EDrawType } drawType 绘制类型
+   * @param { import('../../../map-cursor/map-cursor').EMapCursorType } cursorType 鼠标样式
    */
-  constructor (map, view, drawType) {
+  constructor (map, view, drawType, cursorType = 'draw') {
     super(map, view, false)
 
     this.#drawer = new Drawer(map.$owner.mapElementDisplay)
     this.#drawType = drawType
+    this.#cursorType = cursorType
 
     this.on('draw-start', event => this.onDrawStart(event))
     this.on('draw-move', event => this.onDrawMove(event))
@@ -532,6 +541,7 @@ export class DrawTool extends BaseTool {
   onToolActived (event) {
     if (super.onToolActived(event)) {
       DrawOperation[this.#drawType](this)
+      this.map.$owner.mapCursor.setMapCursor(this.#cursorType)
       return true
     } else {
       return false
@@ -549,6 +559,7 @@ export class DrawTool extends BaseTool {
 
   onToolDeActived (event) {
     if (super.onToolDeActived(event)) {
+      this.map.$owner.mapCursor.setMapCursor('default')
       DrawOperation.clearDrawHandler()
       return true
     } else {

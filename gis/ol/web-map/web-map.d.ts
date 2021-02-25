@@ -2,7 +2,7 @@ import OlMap from 'ol/Map'
 import { MapOptions } from 'ol/PluggableMap'
 import View, { ViewOptions } from 'ol/View'
 import { Listener } from '../../../listener'
-import { Basemap, Hawkeye, MapElementDisplay, MapTools, OlHooks } from '../plugins'
+import { Basemap, Hawkeye, MapCursor, MapElementDisplay, MapTools, OlHooks } from '../plugins'
 
 class Plugins {
   basemap?: Basemap
@@ -10,6 +10,7 @@ class Plugins {
   mapElementDisplay?: MapElementDisplay
   mapTools?: MapTools
   olHooks?: OlHooks
+  mapCursor?: MapCursor
 }
 
 /**
