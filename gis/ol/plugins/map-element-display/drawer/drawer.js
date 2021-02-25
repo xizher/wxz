@@ -133,6 +133,7 @@ export class Drawer {
         style = BaseUtils.deepCopy(styleOptions.polylineStyle)
         break
       case 'Polygon':
+      case 'Circle':
         style = BaseUtils.deepCopy(styleOptions.polygonStyle)
         break
       default:

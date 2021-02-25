@@ -36,6 +36,12 @@ export class MapTools extends WebMapPlugin {
       'draw-point': new DrawTool(this.map, this.view, 'point'),
       'draw-line': new DrawTool(this.map, this.view, 'line'),
       'draw-line-faster': new DrawTool(this.map, this.view, 'line-faster'),
+      'draw-polyline': new DrawTool(this.map, this.view, 'polyline'),
+      'draw-polygon': new DrawTool(this.map, this.view, 'polygon'),
+      'draw-rectangle': new DrawTool(this.map, this.view, 'rectangle'),
+      'draw-rectangle-faster': new DrawTool(this.map, this.view, 'rectangle-faster'),
+      'draw-circle': new DrawTool(this.map, this.view, 'circle'),
+      'draw-circle-faster': new DrawTool(this.map, this.view, 'circle-faster'),
     }
   }
 

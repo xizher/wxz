@@ -322,6 +322,7 @@ export class MapElementDisplay extends WebMapPlugin {
           style = this.#createPolylineStyle(options)
           break
         case 'Polygon':
+        case 'Circle':
           options = BaseUtils.deepCopy(this.#styleOptions.graphicsStyle.polygonStyle)
           BaseUtils.jExtent(true, options, styleOptions)
           style = this.#createPolygonStyle(options)
