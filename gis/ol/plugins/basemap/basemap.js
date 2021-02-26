@@ -150,10 +150,11 @@ export class Basemap extends WebMapPlugin {
     Object.entries(this.#defaultBasemapPool).forEach(
       ([key, url]) => this.#basemapPool[key.toLowerCase()] = createCollection([createXYZLayer(url)])
     )
-    this.selectBasemap(key)
     this.createCustomBasemap('osm', createOSMLayer())
     this.#createTianDiTu()
       .#createBaiDuDiTu()
+
+    this.selectBasemap(key)
   }
 
   /**
