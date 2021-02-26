@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Feature from 'ol/Feature'
 import Geometry from 'ol/geom/Geometry'
+import { $ext } from '../../../../../js-ext'
 /* eslint-enable */
 import { BaseUtils } from '../../../../../js-utils'
 
@@ -178,7 +179,7 @@ export class Drawer {
     BaseUtils.jExtent(true, _styleOptions, styleOptions)
     const feature = this.#mapElementDisplay.parseGraphics(geometries, this.#matchStyle(geometries, this.#drawedStyle))
     this.#mapElementDisplay.add(feature)
-    this.#graphicPool.push(feature)
+    this.#graphicPool.push(...feature)
     if (returnFeature) {
       return feature
     }
@@ -190,7 +191,7 @@ export class Drawer {
    * @returns { this }
    */
   clear () {
-    this.#mapElementDisplay
+    this
       .remove(this.#graphicPool)
       .clearTemp()
     return this
@@ -202,7 +203,11 @@ export class Drawer {
    * @returns { this }
    */
   remove (features) {
+    if (Array.isArray(features) && features.length === 0) {
+      return this
+    }
     this.#mapElementDisplay.remove(features)
+    features.forEach(feat => $ext(this.#graphicPool).removeValue(feat))
     return this
   }
 

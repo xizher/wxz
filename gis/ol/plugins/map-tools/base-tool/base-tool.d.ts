@@ -4,7 +4,7 @@ import { IMap, IView } from "../../../web-map/web-map";
 /**
  * 基础工具类
  */
-export declare class BaseTool<T> extends Listener<T> {
+export declare class BaseTool<T extends IListenerListenType> extends Listener<T> {
   /**
    * 构造基础工具对象
    * @param map 地图对象
@@ -40,15 +40,15 @@ export declare class BaseTool<T> extends Listener<T> {
    * 工具激活监听事件
    * @param event 监听参数
    */
-  onToolActived (event: IListenerCallback) : boolean | IListenerCallback
+  onToolActived (event: IListenerListenType<'tool-actived'>) : boolean | IListenerListenType<'tool-actived'>
   /**
    * 工具清理监听事件
    * @param event 监听参数
    */
-  onToolClear (event: IListenerCallback) : boolean | IListenerCallback
+  onToolClear (event: IListenerListenType<'tool-clear'>) : boolean | IListenerListenType<'tool-clear'>
   /**
    * 工具解除激活监听事件
    * @param event 监听参数
    */
-  onToolDeActived (event: IListenerCallback) : boolean | IListenerCallback
+  onToolDeActived (event: IListenerListenType<'tool-deactived'>) : boolean | IListenerListenType<'tool-deactived'>
 }

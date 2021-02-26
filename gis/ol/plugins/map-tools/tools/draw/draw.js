@@ -140,7 +140,7 @@ export class DrawOperation {
         drawTool.map.getTargetElement().removeEventListener('mousedown', mousedownHandler)
       }
     }
-    DrawOperation.handlerPool.pointermove = {
+    DrawOperation.handlerPool.mouseup = {
       remove () {
         drawTool.map.getTargetElement().removeEventListener('mouseup', mouseupHandler)
       }
@@ -340,7 +340,7 @@ export class DrawOperation {
         drawTool.map.getTargetElement().removeEventListener('mousedown', mousedownHandler)
       }
     }
-    DrawOperation.handlerPool.pointermove = {
+    DrawOperation.handlerPool.mouseup = {
       remove () {
         drawTool.map.getTargetElement().removeEventListener('mouseup', mouseupHandler)
       }
@@ -427,7 +427,7 @@ export class DrawOperation {
         drawTool.map.getTargetElement().removeEventListener('mousedown', mousedownHandler)
       }
     }
-    DrawOperation.handlerPool.pointermove = {
+    DrawOperation.handlerPool.mouseup = {
       remove () {
         drawTool.map.getTargetElement().removeEventListener('mouseup', mouseupHandler)
       }

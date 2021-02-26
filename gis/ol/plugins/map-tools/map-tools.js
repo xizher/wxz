@@ -1,6 +1,8 @@
 import { WebMap, WebMapPlugin } from '../../web-map/web-map' // eslint-disable-line
 import { BaseTool } from './base-tool/base-tool'
 import { DrawTool } from './tools/draw/draw'
+import { ZoomOutRectTool } from './tools/zoom/zoom'
+import { ZoomInRectTool } from './tools/zoom/zoom'
 import { ZoomInTool, ZoomOutTool } from './tools/zoom/zoom'
 
 /**
@@ -42,6 +44,8 @@ export class MapTools extends WebMapPlugin {
       'draw-rectangle-faster': new DrawTool(this.map, this.view, 'rectangle-faster'),
       'draw-circle': new DrawTool(this.map, this.view, 'circle'),
       'draw-circle-faster': new DrawTool(this.map, this.view, 'circle-faster'),
+      'zoom-in-rect': new ZoomInRectTool(this.map, this.view),
+      'zoom-out-rect': new ZoomOutRectTool(this.map, this.view),
     }
   }
 

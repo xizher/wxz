@@ -53,3 +53,15 @@ export function createCircle (center, radius, optLayout) {
   }
   return new Circle(center, radius)
 }
+
+/**
+ * 创建范围对象
+ * @param { [number, number, number, number] } bounds 坐标值
+ */
+export function createExtent (bounds) {
+  const [xmin, ymin, xmax, ymax] = bounds
+  const polygon = createPolygon([[
+    [xmin, ymin], [xmin, ymax], [xmax, ymax], [xmax, ymin]
+  ]])
+  return polygon.getExtent()
+}
