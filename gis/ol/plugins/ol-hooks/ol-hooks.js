@@ -43,4 +43,13 @@ export class OlHooks extends WebMapPlugin {
     }
   }
 
+  useMapTools (toolKeys = []) {
+    const { mapTools } = this.map.$owner
+    const activedKey = ref('default')
+    mapTools.on('change:actived-key', e => activedKey.value = e.key)
+    const toolList = reactive(toolKeys)
+    watch(activedKey, key => mapTools.setMapTool(key))
+    return [activedKey, toolList]
+  }
+
 }

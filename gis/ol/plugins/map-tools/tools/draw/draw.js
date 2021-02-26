@@ -531,7 +531,6 @@ export class DrawTool extends BaseTool {
 
   onDrawStart (event) {
     if (this.actived) {
-      console.log(event)
       return event
     } else {
       return false
@@ -540,7 +539,6 @@ export class DrawTool extends BaseTool {
 
   onDrawMove (event) {
     if (this.actived) {
-      console.log(event)
       return event
     } else {
       return false
@@ -549,7 +547,6 @@ export class DrawTool extends BaseTool {
 
   onDrawEnd (event) {
     if (this.actived) {
-      console.log(event)
       return event
     } else {
       return false

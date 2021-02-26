@@ -18,6 +18,12 @@ export class MapTools extends WebMapPlugin {
    */
   #toolPool = {}
 
+  /**
+   * 当前激活工具Key值
+   * @type { string }
+   */
+  #activedKey = 'default'
+
   //#endregion
 
   //#region 构造函数
@@ -75,14 +81,17 @@ export class MapTools extends WebMapPlugin {
       return this.setMapTool('default')
     }
     if (targetTool.isOnceTool) {
+      this.fire('change:actived-key', { key: this.#activedKey })
       targetTool.active()
       return this
     }
+    this.#activedKey = toolKey
     for (const key in this.#toolPool) {
       if (key !== toolKey) {
         this.#toolPool[key].deactive()
       }
     }
+    this.fire('change:actived-key', { key: this.#activedKey })
     targetTool.active()
     return this
   }

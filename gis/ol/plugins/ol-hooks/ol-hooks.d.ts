@@ -9,4 +9,5 @@ export declare interface IBasemapHooks {
 
 export declare class OlHooks extends WebMapPlugin {
   useBasemap () : IBasemapHooks
+  useMapTools (toolKeys: string[]) : [Ref<string>, string[]]
 }

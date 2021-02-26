@@ -8,7 +8,9 @@ export declare interface IMapToolsToolPool {
 /**
  * 地图工具链类
  */
-export declare class MapTools extends WebMapPlugin {
+export declare class MapTools extends WebMapPlugin<{
+  name: 'change:actived-key', data: { key: string }
+}> {
   /**
    * 设置激活工具
    * @param toolKey 工具Key值
