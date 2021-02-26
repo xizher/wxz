@@ -116,6 +116,26 @@ export class WebMap {
     this.#map.$owner = this
   }
 
+  /**
+   * 设置鼠标中间可用户平移地图
+   */
+  #usePanWithBtnKeyBy2 () {
+    let [tempX, tempY] = [0, 0]
+    this.#map.getTargetElement().addEventListener('mousedown', e => {
+      if (e.buttons === 4) {
+        [tempX, tempY] = this.#map.getEventCoordinate(e)
+      }
+    })
+    this.#map.getTargetElement().addEventListener('mousemove', e => {
+      if (e.buttons === 4) {
+        const [x, y] = this.#map.getEventCoordinate(e)
+        const [dx, dy] = [tempX - x, tempY - y]
+        const [cx, cy] = this.#view.getCenter()
+        this.#view.setCenter([cx + dx, cy + dy])
+      }
+    })
+  }
+
   //#endregion
 
   //#region 公有方法
@@ -127,6 +147,8 @@ export class WebMap {
   mount () {
     const target = this.#targetDiv
     this.#map.setTarget(target)
+
+    this.#usePanWithBtnKeyBy2()
     return this
   }
 
