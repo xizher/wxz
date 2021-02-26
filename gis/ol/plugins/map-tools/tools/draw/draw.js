@@ -117,11 +117,17 @@ export class DrawOperation {
       event.stopPropagation()
     })
     function mousedownHandler (event) {
+      if (event.button !== 0) {
+        return
+      }
       drawing = true
       startCoordinate = drawTool.map.getEventCoordinate(event)
       drawTool.fire('draw-start', { startCoordinate })
     }
     function mouseupHandler (event) {
+      if (event.button !== 0) {
+        return
+      }
       drawing = false
       const coordinate = drawTool.map.getEventCoordinate(event)
       const features = drawTool.drawer.add(createLineString([startCoordinate, coordinate]), {}, true)
@@ -313,11 +319,17 @@ export class DrawOperation {
       event.stopPropagation()
     })
     function mousedownHandler (event) {
+      if (event.button !== 0) {
+        return
+      }
       drawing = true
       ;[startX, startY] = drawTool.map.getEventCoordinate(event)
       drawTool.fire('draw-start', { startX, startY })
     }
     function mouseupHandler (event) {
+      if (event.button !== 0) {
+        return
+      }
       drawing = false
       const [endX, endY] = drawTool.map.getEventCoordinate(event)
       const coordinates = [[
@@ -403,11 +415,17 @@ export class DrawOperation {
       event.stopPropagation()
     })
     function mousedownHandler (event) {
+      if (event.button !== 0) {
+        return
+      }
       drawing = true
       centerCoordinate = drawTool.map.getEventCoordinate(event)
       drawTool.fire('draw-start', { centerCoordinate })
     }
     function mouseupHandler (event) {
+      if (event.button !== 0) {
+        return
+      }
       drawing = false
       const coordinate = drawTool.map.getEventCoordinate(event)
       const radius = distanceByTwoPoint(centerCoordinate, coordinate)
