@@ -52,4 +52,43 @@ export class OlHooks extends WebMapPlugin {
     return [activedKey, toolList]
   }
 
+  useMarkTool () {
+    const { mapTools } = this.map.$owner
+    /** @type { import('../map-tools/tools/mark/mark').MarkTool } */
+    const markTool = mapTools.getTool('mark')
+    function useEnabled () {
+      const enabled = ref(false)
+      mapTools.on('change:actived-key', e => enabled.value = (e.key === 'mark'))
+      watch(enabled, val => {
+        if (val) {
+          mapTools.setMapTool('mark')
+        }
+      })
+      return enabled
+    }
+    function useClear () {
+      markTool.clearMark()
+    }
+    function useMarkType () {
+      const typeList = ['Point', 'LineString', 'Polygon', 'Circle']
+      const selectedType = ref('')
+      mapTools.on('change:actived-key', e => {
+        if (e.key !== 'mark') {
+          selectedType.value = ''
+        }
+      })
+      watch(selectedType, val => {
+        if (val) {
+          markTool.setMarkType(val)
+          mapTools.setMapTool('mark')
+        }
+      })
+      return [selectedType, typeList]
+    }
+
+    return {
+      useEnabled, useClear, useMarkType
+    }
+  }
+
 }

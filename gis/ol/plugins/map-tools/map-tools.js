@@ -1,6 +1,7 @@
 import { WebMap, WebMapPlugin } from '../../web-map/web-map' // eslint-disable-line
 import { BaseTool } from './base-tool/base-tool'
 import { DrawTool } from './tools/draw/draw'
+import { MarkTool } from './tools/mark/mark'
 import { ZoomOutRectTool } from './tools/zoom/zoom'
 import { ZoomInRectTool } from './tools/zoom/zoom'
 import { ZoomInTool, ZoomOutTool } from './tools/zoom/zoom'
@@ -52,6 +53,7 @@ export class MapTools extends WebMapPlugin {
       'draw-circle-faster': new DrawTool(this.map, this.view, 'circle-faster'),
       'zoom-in-rect': new ZoomInRectTool(this.map, this.view),
       'zoom-out-rect': new ZoomOutRectTool(this.map, this.view),
+      'mark': new MarkTool(this.map, this.view)
     }
   }
 
@@ -94,6 +96,47 @@ export class MapTools extends WebMapPlugin {
     this.fire('change:actived-key', { key: this.#activedKey })
     targetTool.active()
     return this
+  }
+
+  /**
+   * 创建自定义工具
+   * @param { string } toolKey 工具名
+   * @param { BaseTool } toolObject 工具对象
+   * @returns { MapTools } this
+   */
+  createCustomTool (toolKey, toolObject) {
+    this.#toolPool[toolKey] = toolObject
+    return this
+  }
+
+  /**
+   * 检查是否已记录工具
+   * @param { string } toolKey 工具名
+   */
+  hasTool (toolKey) {
+    if (this.#toolPool[toolKey]) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  /**
+   * 删除指定工具
+   * @param { string } toolKey 工具名
+   * @returns { MapTools } this
+   */
+  deleteTool (toolKey) {
+    delete this.#toolPool[toolKey]
+    return this
+  }
+
+  /**
+   * 获取工具实例
+   * @param { string } toolKey 工具名
+   */
+  getTool (toolKey) {
+    return this.#toolPool[toolKey]
   }
 
   //#endregion
